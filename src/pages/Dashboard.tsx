@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback, useMemo } from "react";
+import { useState, useEffect, useCallback, useMemo, Fragment } from "react";
 
 type EventFilter = "all" | "auburn" | "mexico";
 
@@ -254,45 +254,67 @@ export default function Dashboard() {
             </thead>
             <tbody>
               {filtered.map((r) => (
-                <tr key={r.id} className="border-b border-neutral-100">
-                  <Td>{r.name}</Td>
-                  <Td>{r.email}</Td>
-                  <Td>
-                    <span className={r.event === "mexico" ? "text-amber-700" : "text-neutral-500"}>
-                      {r.event === "mexico" ? "Mexico" : "Auburn"}
-                    </span>
-                  </Td>
-                  <Td>
-                    <span
-                      className={
-                        r.attending === "Joyfully Accepts" || r.attending === "Acepta con Gusto"
-                          ? "text-emerald-700"
-                          : "text-red-600"
-                      }
-                    >
-                      {r.attending === "Joyfully Accepts" || r.attending === "Acepta con Gusto"
-                        ? "Attending"
-                        : "Declined"}
-                    </span>
-                  </Td>
-                  <Td className="max-w-[200px] truncate">
-                    {formatGuests(r) || (r.plus_first_name
-                      ? `${r.plus_first_name} ${r.plus_last_name ?? ""}`.trim()
-                      : "\u2014")}
-                  </Td>
-                  <Td>{r.traveling_from ? (r.traveling_from === "us" ? "US" : "MX") : "\u2014"}</Td>
-                  <Td>{r.dietary || "\u2014"}</Td>
-                  <Td className="max-w-[200px] truncate">
-                    {r.message || "\u2014"}
-                  </Td>
-                  <Td>{new Date(r.created_at).toLocaleDateString()}</Td>
-                </tr>
+                <RsvpRow key={r.id} rsvp={r} />
               ))}
             </tbody>
           </table>
         </div>
       )}
     </section>
+  );
+}
+
+function RsvpRow({ rsvp: r }: { rsvp: Rsvp }) {
+  const [expanded, setExpanded] = useState(false);
+  const isAttending = r.attending === "Joyfully Accepts" || r.attending === "Acepta con Gusto";
+  const guestDisplay = formatGuests(r) || (r.plus_first_name
+    ? `${r.plus_first_name} ${r.plus_last_name ?? ""}`.trim()
+    : "\u2014");
+  const hasMessage = !!r.message;
+
+  return (
+    <Fragment>
+      <tr className="border-b border-neutral-100">
+        <Td>{r.name}</Td>
+        <Td>{r.email}</Td>
+        <Td>
+          <span className={r.event === "mexico" ? "text-amber-700" : "text-neutral-500"}>
+            {r.event === "mexico" ? "Mexico" : "Auburn"}
+          </span>
+        </Td>
+        <Td>
+          <span className={isAttending ? "text-emerald-700" : "text-red-600"}>
+            {isAttending ? "Attending" : "Declined"}
+          </span>
+        </Td>
+        <Td className="max-w-[200px] truncate">{guestDisplay}</Td>
+        <Td>{r.traveling_from ? (r.traveling_from === "us" ? "US" : "MX") : "\u2014"}</Td>
+        <Td>{r.dietary || "\u2014"}</Td>
+        <Td className="max-w-[200px]">
+          {hasMessage ? (
+            <button
+              onClick={() => setExpanded(!expanded)}
+              className="text-left hover:text-black transition-colors"
+              title={expanded ? "Click to collapse" : "Click to expand"}
+            >
+              <span className={expanded ? "" : "block truncate max-w-[200px]"}>
+                {r.message}
+              </span>
+            </button>
+          ) : (
+            "\u2014"
+          )}
+        </Td>
+        <Td>{new Date(r.created_at).toLocaleDateString()}</Td>
+      </tr>
+      {expanded && hasMessage && (
+        <tr className="border-b border-neutral-100 bg-neutral-50">
+          <td colSpan={9} className="px-4 py-3">
+            <p className="text-sm text-neutral-700 whitespace-pre-wrap">{r.message}</p>
+          </td>
+        </tr>
+      )}
+    </Fragment>
   );
 }
 
