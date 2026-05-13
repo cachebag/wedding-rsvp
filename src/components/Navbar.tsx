@@ -13,7 +13,7 @@ export default function Navbar() {
     <header className="w-full bg-white">
       <div className="flex flex-col items-center pt-8 pb-4">
         <NavLink to="/" className="font-script text-4xl md:text-5xl text-black">
-          Akrm & Sofia
+          Sofia & Akrm
         </NavLink>
         <nav className="mt-5 flex items-center gap-6 md:gap-8 text-sm md:text-base tracking-wide">
           {links.map(({ to, label }) => (
