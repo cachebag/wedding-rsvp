@@ -101,6 +101,43 @@ export default function RsvpMexico() {
           </h1>
         </div>
 
+        <div className="mb-12 space-y-4">
+          <div className="grid gap-4 sm:grid-cols-2">
+            <div className="border border-amber-200 rounded-md p-5 text-center">
+              <h3 className="text-xs tracking-[0.2em] uppercase text-amber-700 font-medium">
+                {ts(locale, "travelTitle")}
+              </h3>
+              <p className="mt-2 text-sm text-stone-700 leading-relaxed">
+                {ts(locale, "travelBody")}
+              </p>
+            </div>
+            <div className="border border-amber-200 rounded-md p-5 text-center">
+              <h3 className="text-xs tracking-[0.2em] uppercase text-amber-700 font-medium">
+                {ts(locale, "transportTitle")}
+              </h3>
+              <p className="mt-2 text-sm text-stone-700 leading-relaxed">
+                {ts(locale, "transportBody")}
+              </p>
+            </div>
+          </div>
+          <div className="border border-amber-200 rounded-md p-5 text-center">
+            <h3 className="text-xs tracking-[0.2em] uppercase text-amber-700 font-medium">
+              {ts(locale, "accommodationsTitle")}
+            </h3>
+            <p className="mt-2 text-sm text-stone-700 leading-relaxed">
+              {ts(locale, "accommodationsBody")}
+            </p>
+            <a
+              href="https://www.haciendacantalagua.com/rooms"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block mt-4 border border-amber-900 text-amber-900 text-xs tracking-widest uppercase px-8 py-2.5 rounded-sm hover:bg-amber-900 hover:text-white transition-colors"
+            >
+              {ts(locale, "bookRoom")}
+            </a>
+          </div>
+        </div>
+
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
             <label className="block text-sm tracking-wide text-stone-500 mb-1">
