@@ -107,19 +107,28 @@ function MexicoHome() {
 
   return (
     <div className="bg-stone-50 min-h-screen">
-      <section className="relative w-full h-[55vh] md:h-[70vh] bg-gradient-to-b from-amber-900 via-amber-800 to-stone-900 flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
+      <section className="relative w-full h-[55vh] md:h-[70vh] overflow-hidden">
+        <img
+          src="/hero.jpg"
+          alt="Sofia and Akrm"
+          className="absolute inset-0 w-full h-full object-cover object-[center_45%]"
+        />
+        <div className="absolute inset-0 bg-amber-900/60 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-gradient-to-b from-amber-900/30 via-transparent to-stone-900/50" />
+        <div className="absolute inset-0 opacity-15">
           <div className="absolute inset-4 md:inset-8 border border-amber-300" />
           <div className="absolute inset-6 md:inset-12 border border-amber-300" />
         </div>
-        <div className="relative z-10 text-center px-6">
-          <p className="text-amber-300 text-xs md:text-sm tracking-[0.3em] uppercase mb-4">
-            {locale === "es" ? "Los Esperamos En" : "Join Us In"}
-          </p>
-          <h2 className="font-script text-5xl md:text-7xl lg:text-8xl text-white leading-tight">
-            Mexico
-          </h2>
-          <div className="mt-4 mx-auto w-16 border-b border-amber-400" />
+        <div className="relative z-10 flex items-center justify-center h-full text-center px-6">
+          <div>
+            <p className="text-amber-200 text-xs md:text-sm tracking-[0.3em] uppercase mb-4">
+              {locale === "es" ? "Los Esperamos En" : "Join Us In"}
+            </p>
+            <h2 className="font-script text-5xl md:text-7xl lg:text-8xl text-white leading-tight drop-shadow-lg">
+              Mexico
+            </h2>
+            <div className="mt-4 mx-auto w-16 border-b border-amber-300" />
+          </div>
         </div>
       </section>
 

@@ -8,6 +8,7 @@ interface FormData {
   name: string;
   email: string;
   attending: string;
+  travelingFrom: string;
   dietary: string;
   message: string;
   plusFirstName: string;
@@ -18,6 +19,7 @@ const initial: FormData = {
   name: "",
   email: "",
   attending: "",
+  travelingFrom: "",
   dietary: "",
   message: "",
   plusFirstName: "",
@@ -55,6 +57,7 @@ export default function RsvpMexico() {
           attending: form.attending,
           plusFirstName: hasPlusOne ? form.plusFirstName : undefined,
           plusLastName: hasPlusOne ? form.plusLastName : undefined,
+          travelingFrom: form.travelingFrom || undefined,
           dietary: form.dietary || undefined,
           message: form.message || undefined,
           event: "mexico",
@@ -147,6 +150,31 @@ export default function RsvpMexico() {
                     required
                   />
                   <span className="text-sm text-stone-700">{opt}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm tracking-wide text-stone-500 mb-1">
+              {ts(locale, "travelingFrom")}
+            </label>
+            <div className="flex gap-6 mt-2">
+              {[
+                { value: "mexico", label: ts(locale, "fromMexico") },
+                { value: "us", label: ts(locale, "fromUS") },
+              ].map(({ value, label }) => (
+                <label key={value} className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="travelingFrom"
+                    value={value}
+                    checked={form.travelingFrom === value}
+                    onChange={(e) => update("travelingFrom", e.target.value)}
+                    className="accent-amber-900"
+                    required
+                  />
+                  <span className="text-sm text-stone-700">{label}</span>
                 </label>
               ))}
             </div>

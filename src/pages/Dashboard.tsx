@@ -9,6 +9,7 @@ interface Rsvp {
   attending: string;
   plus_first_name: string | null;
   plus_last_name: string | null;
+  traveling_from: string | null;
   dietary: string | null;
   message: string | null;
   event: string;
@@ -22,6 +23,7 @@ function downloadCsv(rows: Rsvp[]) {
     "Attending",
     "Plus-One First",
     "Plus-One Last",
+    "Traveling From",
     "Dietary",
     "Message",
     "Event",
@@ -41,6 +43,7 @@ function downloadCsv(rows: Rsvp[]) {
       r.attending,
       r.plus_first_name,
       r.plus_last_name,
+      r.traveling_from,
       r.dietary,
       r.message,
       r.event,
@@ -223,6 +226,7 @@ export default function Dashboard() {
                 <Th>Event</Th>
                 <Th>Status</Th>
                 <Th>Plus-One</Th>
+                <Th>From</Th>
                 <Th>Dietary</Th>
                 <Th>Message</Th>
                 <Th>Date</Th>
@@ -256,6 +260,7 @@ export default function Dashboard() {
                       ? `${r.plus_first_name} ${r.plus_last_name ?? ""}`.trim()
                       : "\u2014"}
                   </Td>
+                  <Td>{r.traveling_from ? (r.traveling_from === "us" ? "US" : "MX") : "\u2014"}</Td>
                   <Td>{r.dietary || "\u2014"}</Td>
                   <Td className="max-w-[200px] truncate">
                     {r.message || "\u2014"}
