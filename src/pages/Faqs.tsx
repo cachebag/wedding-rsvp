@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     q: "Can I bring a plus one?",
-    a: "We kindly ask that only those listed on the invitation attend. If you received a plus one, it will be noted on your invite.",
+    a: "We kindly ask that only those listed on the invitation attend. When you RSVP, you will be prompted to add a plus one if you are bringing one.",
   },
   {
     q: "Will there be parking?",
