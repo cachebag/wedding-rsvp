@@ -2,6 +2,18 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 
 type EventFilter = "all" | "auburn" | "mexico";
 
+function formatGuests(r: Rsvp): string {
+  if (r.guests_json) {
+    try {
+      const arr = JSON.parse(r.guests_json) as { firstName: string; lastName: string }[];
+      return arr.map((g) => `${g.firstName} ${g.lastName}`.trim()).join(", ");
+    } catch {
+      return "";
+    }
+  }
+  return "";
+}
+
 interface Rsvp {
   id: number;
   name: string;
@@ -9,6 +21,7 @@ interface Rsvp {
   attending: string;
   plus_first_name: string | null;
   plus_last_name: string | null;
+  guests_json: string | null;
   traveling_from: string | null;
   dietary: string | null;
   message: string | null;
@@ -21,8 +34,8 @@ function downloadCsv(rows: Rsvp[]) {
     "Name",
     "Email",
     "Attending",
-    "Plus-One First",
-    "Plus-One Last",
+    "Plus-One",
+    "Guests",
     "Traveling From",
     "Dietary",
     "Message",
@@ -43,6 +56,7 @@ function downloadCsv(rows: Rsvp[]) {
       r.attending,
       r.plus_first_name,
       r.plus_last_name,
+      formatGuests(r),
       r.traveling_from,
       r.dietary,
       r.message,
@@ -157,9 +171,15 @@ export default function Dashboard() {
 
   const attending = filtered.filter((r) => r.attending === "Joyfully Accepts" || r.attending === "Acepta con Gusto");
   const declined = filtered.filter((r) => r.attending === "Regretfully Declines" || r.attending === "Declina con Pesar");
-  const totalGuests =
-    attending.length +
-    attending.filter((r) => r.plus_first_name).length;
+  const totalGuests = attending.reduce((sum, r) => {
+    let extra = 0;
+    if (r.guests_json) {
+      try { extra = (JSON.parse(r.guests_json) as unknown[]).length; } catch { /* */ }
+    } else if (r.plus_first_name) {
+      extra = 1;
+    }
+    return sum + 1 + extra;
+  }, 0);
 
   const filters: { value: EventFilter; label: string }[] = [
     { value: "all", label: "All" },
@@ -225,7 +245,7 @@ export default function Dashboard() {
                 <Th>Email</Th>
                 <Th>Event</Th>
                 <Th>Status</Th>
-                <Th>Plus-One</Th>
+                <Th>Guests</Th>
                 <Th>From</Th>
                 <Th>Dietary</Th>
                 <Th>Message</Th>
@@ -255,10 +275,10 @@ export default function Dashboard() {
                         : "Declined"}
                     </span>
                   </Td>
-                  <Td>
-                    {r.plus_first_name
+                  <Td className="max-w-[200px] truncate">
+                    {formatGuests(r) || (r.plus_first_name
                       ? `${r.plus_first_name} ${r.plus_last_name ?? ""}`.trim()
-                      : "\u2014"}
+                      : "\u2014")}
                   </Td>
                   <Td>{r.traveling_from ? (r.traveling_from === "us" ? "US" : "MX") : "\u2014"}</Td>
                   <Td>{r.dietary || "\u2014"}</Td>

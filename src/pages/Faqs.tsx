@@ -1,45 +1,41 @@
-const faqs = [
-  {
-    q: "What time should I arrive by?",
-    a: "Please arrive by 4:15-4:30 PM for the ceremony.",
-  },
-  {
-    q: "When should I RSVP by?",
-    a: "Please RSVP by September 1, 2026.",
-  },
-  {
-    q: "Where is the venue located?",
-    a: "The venue is located at 3391 Cross Creek Pkwy, Auburn Hills, MI 48326.",
-  },
-  {
-    q: "What is the dress code?",
-    a: "Formal attire. Kindly refrain from red or white.",
-  },
-  {
-    q: "Can I bring a plus one?",
-    a: "We kindly ask that only those listed on the invitation attend. When you RSVP, you will be prompted to add a plus one if you are bringing one.",
-  },
-  {
-    q: "Will there be parking?",
-    a: "Yes, complimentary parking is available on-site at the venue.",
-  },
-  {
-    q: "Is the venue indoors or outdoors?",
-    a: "The ceremony and reception will both be held indoors.",
-  },
+import { useEvent } from "@/lib/event-context";
+import { ts, type TranslationKey } from "@/lib/i18n";
+
+const auburnFaqs: { q: TranslationKey; a: TranslationKey }[] = [
+  { q: "faqArrivalQ", a: "faqArrivalA" },
+  { q: "faqRsvpQ", a: "faqRsvpA" },
+  { q: "faqLocationQ", a: "faqLocationA" },
+  { q: "faqDressQ", a: "faqDressA" },
+  { q: "faqPlusOneQ", a: "faqPlusOneA" },
+  { q: "faqParkingQ", a: "faqParkingA" },
+  { q: "faqVenueQ", a: "faqVenueA" },
+];
+
+const mexicoFaqs: { q: TranslationKey; a: TranslationKey }[] = [
+  { q: "mxFaqDressQ", a: "mxFaqDressA" },
+  { q: "mxFaqTransportQ", a: "mxFaqTransportA" },
+  { q: "mxFaqStayQ", a: "mxFaqStayA" },
+  { q: "mxFaqRoomsQ", a: "mxFaqRoomsA" },
+  { q: "mxFaqRsvpQ", a: "mxFaqRsvpA" },
+  { q: "mxFaqGuestsQ", a: "mxFaqGuestsA" },
 ];
 
 export default function Faqs() {
+  const { event, locale } = useEvent();
+  const isMexico = event === "mexico";
+  const l = isMexico ? locale : "en";
+  const faqs = isMexico ? mexicoFaqs : auburnFaqs;
+
   return (
-    <section className="mx-auto max-w-2xl px-6 py-20">
-      <h1 className="font-script text-5xl md:text-6xl text-black text-center">
-        FAQs
+    <section className={`mx-auto max-w-2xl px-6 py-20 ${isMexico ? "bg-stone-50 min-h-screen" : ""}`}>
+      <h1 className={`font-script text-5xl md:text-6xl text-center ${isMexico ? "text-stone-900" : "text-black"}`}>
+        {ts(l, "faqsTitle")}
       </h1>
-      <div className="mt-12 divide-y divide-neutral-200">
+      <div className={`mt-12 divide-y ${isMexico ? "divide-amber-200" : "divide-neutral-200"}`}>
         {faqs.map(({ q, a }) => (
           <div key={q} className="py-6">
-            <h3 className="text-lg font-medium text-black">{q}</h3>
-            <p className="mt-2 text-neutral-600 leading-relaxed">{a}</p>
+            <h3 className={`text-lg font-medium ${isMexico ? "text-stone-900" : "text-black"}`}>{ts(l, q)}</h3>
+            <p className={`mt-2 leading-relaxed ${isMexico ? "text-stone-600" : "text-neutral-600"}`}>{ts(l, a)}</p>
           </div>
         ))}
       </div>

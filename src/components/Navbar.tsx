@@ -1,12 +1,11 @@
 import { NavLink } from "react-router-dom";
 import { useEvent } from "@/lib/event-context";
 
-const links = [
+const baseLinks = [
   { to: "/", label: "Home" },
   { to: "/schedule", label: "Schedule" },
   { to: "/registry", label: "Registry" },
   { to: "/faqs", label: "FAQs" },
-  { to: "/rsvp", label: "RSVP" },
 ] as const;
 
 function LanguageToggle() {
@@ -52,7 +51,7 @@ export default function Navbar() {
           Sofia & Akrm
         </NavLink>
         <nav className="mt-5 flex items-center gap-6 md:gap-8 text-sm md:text-base tracking-wide">
-          {links.map(({ to, label }) => (
+          {[...baseLinks, { to: isMexico ? "/rsvp-mexico" : "/rsvp", label: "RSVP" }].map(({ to, label }) => (
             <NavLink
               key={to}
               to={to}

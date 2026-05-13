@@ -17,6 +17,7 @@ async function main() {
       attending TEXT NOT NULL,
       plus_first_name TEXT,
       plus_last_name TEXT,
+      guests_json TEXT,
       traveling_from TEXT,
       dietary TEXT,
       message TEXT,
@@ -39,6 +40,12 @@ async function main() {
         WHERE table_name = 'rsvps' AND column_name = 'traveling_from'
       ) THEN
         ALTER TABLE rsvps ADD COLUMN traveling_from TEXT;
+      END IF;
+      IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_name = 'rsvps' AND column_name = 'guests_json'
+      ) THEN
+        ALTER TABLE rsvps ADD COLUMN guests_json TEXT;
       END IF;
     END $$
   `;

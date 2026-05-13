@@ -1,45 +1,35 @@
-import { useState, useMemo, type FormEvent } from "react";
-import { mightContain } from "@/lib/bloom";
-import { plusOneFilter } from "@/lib/guests";
+import { useState, type FormEvent } from "react";
 import { useEvent } from "@/lib/event-context";
 import { ts } from "@/lib/i18n";
 
-interface FormData {
-  name: string;
-  email: string;
-  attending: string;
-  travelingFrom: string;
-  dietary: string;
-  message: string;
-  plusFirstName: string;
-  plusLastName: string;
+interface Guest {
+  firstName: string;
+  lastName: string;
 }
-
-const initial: FormData = {
-  name: "",
-  email: "",
-  attending: "",
-  travelingFrom: "",
-  dietary: "",
-  message: "",
-  plusFirstName: "",
-  plusLastName: "",
-};
 
 export default function RsvpMexico() {
   const { locale } = useEvent();
-  const [form, setForm] = useState<FormData>(initial);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [attending, setAttending] = useState("");
+  const [travelingFrom, setTravelingFrom] = useState("");
+  const [bringingGuests, setBringingGuests] = useState<"" | "yes" | "no">("");
+  const [guests, setGuests] = useState<Guest[]>([{ firstName: "", lastName: "" }]);
+  const [dietary, setDietary] = useState("");
+  const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
-  const hasPlusOne = useMemo(() => {
-    const trimmed = form.name.trim();
-    const firstName = trimmed.split(/\s+/)[0] || "";
-    return firstName.length >= 4 && mightContain(plusOneFilter, firstName);
-  }, [form.name]);
+  function updateGuest(idx: number, field: keyof Guest, value: string) {
+    setGuests((prev) => prev.map((g, i) => (i === idx ? { ...g, [field]: value } : g)));
+  }
 
-  function update(field: keyof FormData, value: string) {
-    setForm((prev) => ({ ...prev, [field]: value }));
+  function addGuest() {
+    setGuests((prev) => [...prev, { firstName: "", lastName: "" }]);
+  }
+
+  function removeGuest(idx: number) {
+    setGuests((prev) => prev.filter((_, i) => i !== idx));
   }
 
   async function handleSubmit(e: FormEvent) {
@@ -47,19 +37,23 @@ export default function RsvpMexico() {
     setStatus("submitting");
     setErrorMsg("");
 
+    const guestList =
+      bringingGuests === "yes"
+        ? guests.filter((g) => g.firstName.trim() || g.lastName.trim())
+        : [];
+
     try {
       const res = await fetch("/api/rsvp", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          attending: form.attending,
-          plusFirstName: hasPlusOne ? form.plusFirstName : undefined,
-          plusLastName: hasPlusOne ? form.plusLastName : undefined,
-          travelingFrom: form.travelingFrom || undefined,
-          dietary: form.dietary || undefined,
-          message: form.message || undefined,
+          name,
+          email,
+          attending,
+          travelingFrom: travelingFrom || undefined,
+          guests: guestList.length > 0 ? guestList : undefined,
+          dietary: dietary || undefined,
+          message: message || undefined,
           event: "mexico",
         }),
       });
@@ -91,6 +85,7 @@ export default function RsvpMexico() {
 
   const acceptLabel = ts(locale, "accepts");
   const declineLabel = ts(locale, "declines");
+  const inp = "w-full border-b border-amber-200 py-2 text-stone-900 outline-none focus:border-amber-900 transition-colors bg-transparent";
 
   return (
     <section className="bg-stone-50 min-h-screen">
@@ -111,26 +106,14 @@ export default function RsvpMexico() {
             <label className="block text-sm tracking-wide text-stone-500 mb-1">
               {ts(locale, "fullName")}
             </label>
-            <input
-              required
-              type="text"
-              value={form.name}
-              onChange={(e) => update("name", e.target.value)}
-              className="w-full border-b border-amber-200 py-2 text-stone-900 outline-none focus:border-amber-900 transition-colors bg-transparent"
-            />
+            <input required type="text" value={name} onChange={(e) => setName(e.target.value)} className={inp} />
           </div>
 
           <div>
             <label className="block text-sm tracking-wide text-stone-500 mb-1">
               {ts(locale, "email")}
             </label>
-            <input
-              required
-              type="email"
-              value={form.email}
-              onChange={(e) => update("email", e.target.value)}
-              className="w-full border-b border-amber-200 py-2 text-stone-900 outline-none focus:border-amber-900 transition-colors bg-transparent"
-            />
+            <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inp} />
           </div>
 
           <div>
@@ -144,8 +127,8 @@ export default function RsvpMexico() {
                     type="radio"
                     name="attending"
                     value={opt}
-                    checked={form.attending === opt}
-                    onChange={(e) => update("attending", e.target.value)}
+                    checked={attending === opt}
+                    onChange={(e) => setAttending(e.target.value)}
                     className="accent-amber-900"
                     required
                   />
@@ -169,8 +152,8 @@ export default function RsvpMexico() {
                     type="radio"
                     name="travelingFrom"
                     value={value}
-                    checked={form.travelingFrom === value}
-                    onChange={(e) => update("travelingFrom", e.target.value)}
+                    checked={travelingFrom === value}
+                    onChange={(e) => setTravelingFrom(e.target.value)}
                     className="accent-amber-900"
                     required
                   />
@@ -180,33 +163,74 @@ export default function RsvpMexico() {
             </div>
           </div>
 
-          {hasPlusOne && (
+          <div>
+            <label className="block text-sm tracking-wide text-stone-500 mb-1">
+              {ts(locale, "bringingGuests")}
+            </label>
+            <div className="flex gap-6 mt-2">
+              {[
+                { value: "yes" as const, label: ts(locale, "yes") },
+                { value: "no" as const, label: ts(locale, "no") },
+              ].map(({ value, label }) => (
+                <label key={value} className="flex items-center gap-2 cursor-pointer">
+                  <input
+                    type="radio"
+                    name="bringingGuests"
+                    value={value}
+                    checked={bringingGuests === value}
+                    onChange={() => setBringingGuests(value)}
+                    className="accent-amber-900"
+                  />
+                  <span className="text-sm text-stone-700">{label}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {bringingGuests === "yes" && (
             <div className="space-y-4 rounded-md border border-amber-200 p-5">
-              <p className="text-sm tracking-wide text-stone-500">
-                {ts(locale, "plusOneNote")}
-              </p>
-              <div>
-                <label className="block text-sm tracking-wide text-stone-500 mb-1">
-                  {ts(locale, "guestFirst")}
-                </label>
-                <input
-                  type="text"
-                  value={form.plusFirstName}
-                  onChange={(e) => update("plusFirstName", e.target.value)}
-                  className="w-full border-b border-amber-200 py-2 text-stone-900 outline-none focus:border-amber-900 transition-colors bg-transparent"
-                />
-              </div>
-              <div>
-                <label className="block text-sm tracking-wide text-stone-500 mb-1">
-                  {ts(locale, "guestLast")}
-                </label>
-                <input
-                  type="text"
-                  value={form.plusLastName}
-                  onChange={(e) => update("plusLastName", e.target.value)}
-                  className="w-full border-b border-amber-200 py-2 text-stone-900 outline-none focus:border-amber-900 transition-colors bg-transparent"
-                />
-              </div>
+              {guests.map((g, idx) => (
+                <div key={idx} className="flex items-end gap-3">
+                  <div className="flex-1">
+                    <label className="block text-sm tracking-wide text-stone-500 mb-1">
+                      {ts(locale, "guestFirst")}
+                    </label>
+                    <input
+                      type="text"
+                      value={g.firstName}
+                      onChange={(e) => updateGuest(idx, "firstName", e.target.value)}
+                      className={inp}
+                    />
+                  </div>
+                  <div className="flex-1">
+                    <label className="block text-sm tracking-wide text-stone-500 mb-1">
+                      {ts(locale, "guestLast")}
+                    </label>
+                    <input
+                      type="text"
+                      value={g.lastName}
+                      onChange={(e) => updateGuest(idx, "lastName", e.target.value)}
+                      className={inp}
+                    />
+                  </div>
+                  {guests.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeGuest(idx)}
+                      className="text-xs text-red-500 hover:text-red-700 pb-2 whitespace-nowrap"
+                    >
+                      {ts(locale, "removeGuest")}
+                    </button>
+                  )}
+                </div>
+              ))}
+              <button
+                type="button"
+                onClick={addGuest}
+                className="text-sm text-amber-800 hover:text-amber-950 tracking-wide"
+              >
+                {ts(locale, "addGuest")}
+              </button>
             </div>
           )}
 
@@ -216,10 +240,10 @@ export default function RsvpMexico() {
             </label>
             <input
               type="text"
-              value={form.dietary}
-              onChange={(e) => update("dietary", e.target.value)}
+              value={dietary}
+              onChange={(e) => setDietary(e.target.value)}
               placeholder={ts(locale, "dietaryPlaceholder")}
-              className="w-full border-b border-amber-200 py-2 text-stone-900 outline-none focus:border-amber-900 transition-colors bg-transparent placeholder:text-stone-300"
+              className={`${inp} placeholder:text-stone-300`}
             />
           </div>
 
@@ -228,10 +252,10 @@ export default function RsvpMexico() {
               {ts(locale, "messageLabel")}
             </label>
             <textarea
-              value={form.message}
-              onChange={(e) => update("message", e.target.value)}
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
               rows={3}
-              className="w-full border-b border-amber-200 py-2 text-stone-900 outline-none focus:border-amber-900 transition-colors bg-transparent resize-none"
+              className={`${inp} resize-none`}
             />
           </div>
 

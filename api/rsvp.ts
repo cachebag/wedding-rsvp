@@ -8,6 +8,7 @@ interface RsvpBody {
   attending: string;
   plusFirstName?: string;
   plusLastName?: string;
+  guests?: { firstName: string; lastName: string }[];
   travelingFrom?: string;
   dietary?: string;
   message?: string;
@@ -33,13 +34,17 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: "Invalid RSVP data" });
     }
 
-    const { name, email, attending, plusFirstName, plusLastName, travelingFrom, dietary, message, event } = req.body;
+    const { name, email, attending, plusFirstName, plusLastName, guests, travelingFrom, dietary, message, event } = req.body;
     const eventValue = event === "mexico" ? "mexico" : "auburn";
     const sql = getDb();
 
+    const guestsJson = guests && guests.length > 0 ? JSON.stringify(guests) : null;
+    const pfn = plusFirstName?.trim() || null;
+    const pln = plusLastName?.trim() || null;
+
     await sql`
-      INSERT INTO rsvps (name, email, attending, plus_first_name, plus_last_name, traveling_from, dietary, message, event)
-      VALUES (${name.trim()}, ${email.trim()}, ${attending}, ${plusFirstName?.trim() || null}, ${plusLastName?.trim() || null}, ${travelingFrom?.trim() || null}, ${dietary?.trim() || null}, ${message?.trim() || null}, ${eventValue})
+      INSERT INTO rsvps (name, email, attending, plus_first_name, plus_last_name, guests_json, traveling_from, dietary, message, event)
+      VALUES (${name.trim()}, ${email.trim()}, ${attending}, ${pfn}, ${pln}, ${guestsJson}, ${travelingFrom?.trim() || null}, ${dietary?.trim() || null}, ${message?.trim() || null}, ${eventValue})
     `;
 
     return res.status(201).json({ ok: true });
