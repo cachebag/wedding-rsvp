@@ -4,7 +4,7 @@ export default function Registry() {
       <h1 className="font-script text-5xl md:text-6xl text-black">Registry</h1>
       <p className="mt-8 text-lg text-neutral-600 leading-relaxed">
         Your presence at our wedding is the greatest gift of all. If you wish to
-        honor us with a gift, we have registered at the following locations.
+        honor us with a gift, our registry is linked below for you to browse.
       </p>
       <div className="mt-12 flex flex-col items-center gap-4">
         <a
