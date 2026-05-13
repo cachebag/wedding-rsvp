@@ -27,10 +27,11 @@ export default function Rsvp() {
   const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
 
-  const hasPlusOne = useMemo(
-    () => form.name.trim().length >= 4 && mightContain(plusOneFilter, form.name),
-    [form.name]
-  );
+  const hasPlusOne = useMemo(() => {
+    const trimmed = form.name.trim();
+    const firstName = trimmed.split(/\s+/)[0] || "";
+    return firstName.length >= 4 && mightContain(plusOneFilter, firstName);
+  }, [form.name]);
 
   function update(field: keyof FormData, value: string) {
     setForm((prev) => ({ ...prev, [field]: value }));
