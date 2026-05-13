@@ -87,7 +87,10 @@ const translations = {
     mxFaqRsvpQ: "When should I RSVP by?",
     mxFaqRsvpA: "Please RSVP by October 1, 2026.",
     mxFaqGuestsQ: "Can I bring guests?",
-    mxFaqGuestsA: "Yes! When you RSVP you can add as many guests as you'd like.",
+    mxFaqGuestsA: "Yes, but please be sure to include who you are bringing in the RSVP.",
+    mxFaqVenueQ: "Is the venue indoors or outdoors?",
+    mxFaqVenueA: "The celebration will be both indoors and outdoors.",
+    visitingFromUS: "If you are visiting from the US",
   },
   es: {
     names: ["Sofia Ruiz-Sierra", "Akrm Al-Hakimi"],
@@ -179,7 +182,10 @@ const translations = {
     mxFaqRsvpQ: "Cuando debo confirmar asistencia?",
     mxFaqRsvpA: "Por favor confirma antes del 1 de octubre de 2026.",
     mxFaqGuestsQ: "Puedo traer invitados?",
-    mxFaqGuestsA: "Si! Al confirmar asistencia puedes agregar a todos los invitados que desees.",
+    mxFaqGuestsA: "Si, pero asegurate de incluir a quienes llevaras en tu confirmacion de asistencia.",
+    mxFaqVenueQ: "El evento es en interior o exterior?",
+    mxFaqVenueA: "La celebracion sera tanto en interior como en exterior.",
+    visitingFromUS: "Si vienes desde Estados Unidos",
   },
 } as const;
 

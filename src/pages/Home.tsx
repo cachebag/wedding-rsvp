@@ -168,6 +168,13 @@ function MexicoHome() {
       </section>
 
       <section className="max-w-2xl mx-auto px-6 pb-16 md:pb-24">
+        <div className="flex items-center gap-4 mb-8 justify-center">
+          <div className="w-10 border-b border-amber-300" />
+          <p className="text-xs tracking-[0.2em] uppercase text-amber-700 font-medium">
+            {ts(locale, "visitingFromUS")}
+          </p>
+          <div className="w-10 border-b border-amber-300" />
+        </div>
         <div className="grid gap-6 md:grid-cols-2">
           <InfoCard title={ts(locale, "travelTitle")} body={ts(locale, "travelBody")} />
           <InfoCard title={ts(locale, "transportTitle")} body={ts(locale, "transportBody")} />

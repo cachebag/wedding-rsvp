@@ -18,6 +18,7 @@ const mexicoFaqs: { q: TranslationKey; a: TranslationKey }[] = [
   { q: "mxFaqRoomsQ", a: "mxFaqRoomsA" },
   { q: "mxFaqRsvpQ", a: "mxFaqRsvpA" },
   { q: "mxFaqGuestsQ", a: "mxFaqGuestsA" },
+  { q: "mxFaqVenueQ", a: "mxFaqVenueA" },
 ];
 
 export default function Faqs() {
