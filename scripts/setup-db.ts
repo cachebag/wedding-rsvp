@@ -19,11 +19,24 @@ async function main() {
       plus_last_name TEXT,
       dietary TEXT,
       message TEXT,
+      event TEXT NOT NULL DEFAULT 'auburn',
       created_at TIMESTAMPTZ DEFAULT NOW()
     )
   `;
 
-  console.log("Table 'rsvps' created successfully.");
+  await sql`
+    DO $$
+    BEGIN
+      IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_name = 'rsvps' AND column_name = 'event'
+      ) THEN
+        ALTER TABLE rsvps ADD COLUMN event TEXT NOT NULL DEFAULT 'auburn';
+      END IF;
+    END $$
+  `;
+
+  console.log("Table 'rsvps' is up to date.");
 }
 
 main().catch((err) => {

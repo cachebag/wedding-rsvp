@@ -5,6 +5,7 @@ import Schedule from "@/pages/Schedule";
 import Registry from "@/pages/Registry";
 import Faqs from "@/pages/Faqs";
 import Rsvp from "@/pages/Rsvp";
+import RsvpMexico from "@/pages/RsvpMexico";
 import Dashboard from "@/pages/Dashboard";
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="registry" element={<Registry />} />
         <Route path="faqs" element={<Faqs />} />
         <Route path="rsvp" element={<Rsvp />} />
+        <Route path="rsvp-mexico" element={<RsvpMexico />} />
         <Route path="dashboard" element={<Dashboard />} />
       </Route>
     </Routes>

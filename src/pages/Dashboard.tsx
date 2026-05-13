@@ -1,4 +1,6 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
+
+type EventFilter = "all" | "auburn" | "mexico";
 
 interface Rsvp {
   id: number;
@@ -9,6 +11,7 @@ interface Rsvp {
   plus_last_name: string | null;
   dietary: string | null;
   message: string | null;
+  event: string;
   created_at: string;
 }
 
@@ -21,6 +24,7 @@ function downloadCsv(rows: Rsvp[]) {
     "Plus-One Last",
     "Dietary",
     "Message",
+    "Event",
     "Submitted",
   ];
   const escape = (v: string | null) => {
@@ -39,6 +43,7 @@ function downloadCsv(rows: Rsvp[]) {
       r.plus_last_name,
       r.dietary,
       r.message,
+      r.event,
       new Date(r.created_at).toLocaleDateString(),
     ]
       .map(escape)
@@ -60,6 +65,7 @@ export default function Dashboard() {
   const [loginError, setLoginError] = useState("");
   const [rsvps, setRsvps] = useState<Rsvp[]>([]);
   const [loading, setLoading] = useState(false);
+  const [filter, setFilter] = useState<EventFilter>("all");
 
   const checkAuth = useCallback(async () => {
     const res = await fetch("/api/auth");
@@ -83,6 +89,11 @@ export default function Dashboard() {
   useEffect(() => {
     if (authed) fetchRsvps();
   }, [authed, fetchRsvps]);
+
+  const filtered = useMemo(
+    () => (filter === "all" ? rsvps : rsvps.filter((r) => r.event === filter)),
+    [rsvps, filter]
+  );
 
   async function handleLogin(e: React.FormEvent) {
     e.preventDefault();
@@ -141,15 +152,21 @@ export default function Dashboard() {
     );
   }
 
-  const attending = rsvps.filter((r) => r.attending === "Joyfully Accepts");
-  const declined = rsvps.filter((r) => r.attending === "Regretfully Declines");
+  const attending = filtered.filter((r) => r.attending === "Joyfully Accepts" || r.attending === "Acepta con Gusto");
+  const declined = filtered.filter((r) => r.attending === "Regretfully Declines" || r.attending === "Declina con Pesar");
   const totalGuests =
     attending.length +
     attending.filter((r) => r.plus_first_name).length;
 
+  const filters: { value: EventFilter; label: string }[] = [
+    { value: "all", label: "All" },
+    { value: "auburn", label: "Auburn Hills" },
+    { value: "mexico", label: "Mexico" },
+  ];
+
   return (
     <section className="mx-auto max-w-5xl px-6 py-12">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <h1 className="font-script text-4xl text-black">RSVPs</h1>
         <div className="flex gap-3">
           <button
@@ -159,7 +176,7 @@ export default function Dashboard() {
             Refresh
           </button>
           <button
-            onClick={() => downloadCsv(rsvps)}
+            onClick={() => downloadCsv(filtered)}
             className="text-sm bg-black text-white px-4 py-2 rounded-sm hover:bg-neutral-800 transition-colors"
           >
             Download CSV
@@ -167,8 +184,24 @@ export default function Dashboard() {
         </div>
       </div>
 
+      <div className="flex gap-2 mb-8">
+        {filters.map(({ value, label }) => (
+          <button
+            key={value}
+            onClick={() => setFilter(value)}
+            className={`text-xs tracking-widest uppercase px-4 py-2 rounded-full border transition-colors ${
+              filter === value
+                ? "bg-black text-white border-black"
+                : "text-neutral-500 border-neutral-200 hover:border-black"
+            }`}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-10">
-        <Stat label="Total RSVPs" value={rsvps.length} />
+        <Stat label="Total RSVPs" value={filtered.length} />
         <Stat label="Attending" value={attending.length} />
         <Stat label="Declined" value={declined.length} />
         <Stat label="Total Guests" value={totalGuests} />
@@ -176,7 +209,7 @@ export default function Dashboard() {
 
       {loading ? (
         <p className="text-neutral-400">Loading...</p>
-      ) : rsvps.length === 0 ? (
+      ) : filtered.length === 0 ? (
         <p className="text-neutral-400 text-center py-12">
           No RSVPs yet.
         </p>
@@ -187,6 +220,7 @@ export default function Dashboard() {
               <tr className="border-b border-neutral-200">
                 <Th>Name</Th>
                 <Th>Email</Th>
+                <Th>Event</Th>
                 <Th>Status</Th>
                 <Th>Plus-One</Th>
                 <Th>Dietary</Th>
@@ -195,19 +229,24 @@ export default function Dashboard() {
               </tr>
             </thead>
             <tbody>
-              {rsvps.map((r) => (
+              {filtered.map((r) => (
                 <tr key={r.id} className="border-b border-neutral-100">
                   <Td>{r.name}</Td>
                   <Td>{r.email}</Td>
                   <Td>
+                    <span className={r.event === "mexico" ? "text-amber-700" : "text-neutral-500"}>
+                      {r.event === "mexico" ? "Mexico" : "Auburn"}
+                    </span>
+                  </Td>
+                  <Td>
                     <span
                       className={
-                        r.attending === "Joyfully Accepts"
+                        r.attending === "Joyfully Accepts" || r.attending === "Acepta con Gusto"
                           ? "text-emerald-700"
                           : "text-red-600"
                       }
                     >
-                      {r.attending === "Joyfully Accepts"
+                      {r.attending === "Joyfully Accepts" || r.attending === "Acepta con Gusto"
                         ? "Attending"
                         : "Declined"}
                     </span>
@@ -215,11 +254,11 @@ export default function Dashboard() {
                   <Td>
                     {r.plus_first_name
                       ? `${r.plus_first_name} ${r.plus_last_name ?? ""}`.trim()
-                      : "—"}
+                      : "\u2014"}
                   </Td>
-                  <Td>{r.dietary || "—"}</Td>
+                  <Td>{r.dietary || "\u2014"}</Td>
                   <Td className="max-w-[200px] truncate">
-                    {r.message || "—"}
+                    {r.message || "\u2014"}
                   </Td>
                   <Td>{new Date(r.created_at).toLocaleDateString()}</Td>
                 </tr>

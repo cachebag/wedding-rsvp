@@ -10,6 +10,7 @@ interface RsvpBody {
   plusLastName?: string;
   dietary?: string;
   message?: string;
+  event?: string;
 }
 
 function isValidBody(body: unknown): body is RsvpBody {
@@ -31,12 +32,13 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
       return res.status(400).json({ error: "Invalid RSVP data" });
     }
 
-    const { name, email, attending, plusFirstName, plusLastName, dietary, message } = req.body;
+    const { name, email, attending, plusFirstName, plusLastName, dietary, message, event } = req.body;
+    const eventValue = event === "mexico" ? "mexico" : "auburn";
     const sql = getDb();
 
     await sql`
-      INSERT INTO rsvps (name, email, attending, plus_first_name, plus_last_name, dietary, message)
-      VALUES (${name.trim()}, ${email.trim()}, ${attending}, ${plusFirstName?.trim() || null}, ${plusLastName?.trim() || null}, ${dietary?.trim() || null}, ${message?.trim() || null})
+      INSERT INTO rsvps (name, email, attending, plus_first_name, plus_last_name, dietary, message, event)
+      VALUES (${name.trim()}, ${email.trim()}, ${attending}, ${plusFirstName?.trim() || null}, ${plusLastName?.trim() || null}, ${dietary?.trim() || null}, ${message?.trim() || null}, ${eventValue})
     `;
 
     return res.status(201).json({ ok: true });

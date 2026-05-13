@@ -1,6 +1,4 @@
-import { useEffect, useState } from "react";
-
-const WEDDING_DATE = new Date("2026-11-21T16:00:00-05:00");
+import { useEffect, useState, useCallback } from "react";
 
 interface TimeLeft {
   days: number;
@@ -9,8 +7,8 @@ interface TimeLeft {
   seconds: number;
 }
 
-function calcTimeLeft(): TimeLeft {
-  const diff = Math.max(0, WEDDING_DATE.getTime() - Date.now());
+function calcTimeLeft(target: Date): TimeLeft {
+  const diff = Math.max(0, target.getTime() - Date.now());
   return {
     days: Math.floor(diff / (1000 * 60 * 60 * 24)),
     hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
@@ -19,13 +17,22 @@ function calcTimeLeft(): TimeLeft {
   };
 }
 
-export default function Countdown() {
-  const [time, setTime] = useState(calcTimeLeft);
+interface CountdownProps {
+  targetDate?: Date;
+  className?: string;
+}
+
+const AUBURN_DATE = new Date("2026-11-21T16:00:00-05:00");
+
+export default function Countdown({ targetDate = AUBURN_DATE, className = "" }: CountdownProps) {
+  const calc = useCallback(() => calcTimeLeft(targetDate), [targetDate]);
+  const [time, setTime] = useState(calc);
 
   useEffect(() => {
-    const id = setInterval(() => setTime(calcTimeLeft()), 1000);
+    setTime(calc());
+    const id = setInterval(() => setTime(calc()), 1000);
     return () => clearInterval(id);
-  }, []);
+  }, [calc]);
 
   const segments: { value: number; label: string }[] = [
     { value: time.days, label: "days" },
@@ -35,7 +42,7 @@ export default function Countdown() {
   ];
 
   return (
-    <div className="flex items-center justify-center gap-4 md:gap-6 text-base md:text-lg tracking-wide">
+    <div className={`flex items-center justify-center gap-4 md:gap-6 text-base md:text-lg tracking-wide ${className}`}>
       {segments.map(({ value, label }) => (
         <span key={label} className="tabular-nums">
           {value} {label}
