@@ -8,10 +8,12 @@ export default function Registry() {
       </p>
       <div className="mt-12 flex flex-col items-center gap-4">
         <a
-          href="#"
+          href="https://www.amazon.com/wedding/share/sofia-akrm"
+          target="_blank"
+          rel="noopener noreferrer"
           className="w-full max-w-xs bg-black text-white text-sm tracking-widest uppercase py-4 rounded-sm hover:bg-neutral-800 transition-colors"
         >
-          Registry Coming Soon
+          View Our Registry
         </a>
       </div>
     </section>
