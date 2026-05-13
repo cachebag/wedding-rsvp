@@ -28,7 +28,7 @@ export default function Rsvp() {
   const [errorMsg, setErrorMsg] = useState("");
 
   const hasPlusOne = useMemo(
-    () => form.name.trim().length > 0 && mightContain(plusOneFilter, form.name),
+    () => form.name.trim().length >= 4 && mightContain(plusOneFilter, form.name),
     [form.name]
   );
 
