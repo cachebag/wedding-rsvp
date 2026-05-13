@@ -24,7 +24,8 @@ const initial: FormData = {
 
 export default function Rsvp() {
   const [form, setForm] = useState<FormData>(initial);
-  const [submitted, setSubmitted] = useState(false);
+  const [status, setStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMsg, setErrorMsg] = useState("");
 
   const hasPlusOne = useMemo(
     () => form.name.trim().length > 0 && mightContain(plusOneFilter, form.name),
@@ -35,12 +36,39 @@ export default function Rsvp() {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
-  function handleSubmit(e: FormEvent) {
+  async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    setSubmitted(true);
+    setStatus("submitting");
+    setErrorMsg("");
+
+    try {
+      const res = await fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          attending: form.attending,
+          plusFirstName: hasPlusOne ? form.plusFirstName : undefined,
+          plusLastName: hasPlusOne ? form.plusLastName : undefined,
+          dietary: form.dietary || undefined,
+          message: form.message || undefined,
+        }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || "Something went wrong");
+      }
+
+      setStatus("success");
+    } catch (err) {
+      setErrorMsg(err instanceof Error ? err.message : "Something went wrong");
+      setStatus("error");
+    }
   }
 
-  if (submitted) {
+  if (status === "success") {
     return (
       <section className="mx-auto max-w-xl px-6 py-20 text-center">
         <h1 className="font-script text-5xl md:text-6xl text-black">
@@ -162,11 +190,16 @@ export default function Rsvp() {
           />
         </div>
 
+        {status === "error" && (
+          <p className="text-red-600 text-sm">{errorMsg}</p>
+        )}
+
         <button
           type="submit"
-          className="w-full bg-black text-white text-sm tracking-widest uppercase py-4 rounded-sm hover:bg-neutral-800 transition-colors mt-4"
+          disabled={status === "submitting"}
+          className="w-full bg-black text-white text-sm tracking-widest uppercase py-4 rounded-sm hover:bg-neutral-800 transition-colors mt-4 disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          Submit RSVP
+          {status === "submitting" ? "Submitting..." : "Submit RSVP"}
         </button>
       </form>
     </section>

@@ -1,17 +1,9 @@
 import { createFilter } from "./bloom";
 
-const PLUS_ONE_NAMES = [
-  "Carlos",
-  "Adam",
-  "Rola",
-  "Yousef",
-  "Nowar",
-  "Kent",
-  "Omair",
-  "Max",
-  "Ahmed",
-  "Kylie",
-  "Arun",
-];
+const raw = import.meta.env.VITE_PLUS_ONE_NAMES ?? "";
+const names = raw
+  .split(",")
+  .map((n: string) => n.trim())
+  .filter(Boolean);
 
-export const plusOneFilter = createFilter(PLUS_ONE_NAMES);
+export const plusOneFilter = createFilter(names);
