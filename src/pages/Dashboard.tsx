@@ -297,7 +297,7 @@ function RsvpRow({ rsvp: r }: { rsvp: Rsvp }) {
               className="text-left hover:text-black transition-colors"
               title={expanded ? "Click to collapse" : "Click to expand"}
             >
-              <span className={expanded ? "" : "block truncate max-w-[200px]"}>
+              <span className="block truncate max-w-[200px]">
                 {r.message}
               </span>
             </button>
