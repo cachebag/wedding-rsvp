@@ -12,7 +12,7 @@ const translations = {
       "Airport transportation to and from Hacienda Cantalagua will be arranged for all guests",
     accommodationsTitle: "Accommodations",
     accommodationsBody:
-      "Rooms are available at the hacienda for the duration of your stay. Use code BODA SOFIA & AKRM when booking online for a discount. Code expires June 30, 2026.",
+      "Rooms are available at the hacienda for the duration of your stay. Contact the hacienda directly via WhatsApp to book your room.",
     bookRoom: "Book Your Room",
     moreDetails: "More details to come",
     fullName: "Full Name",
@@ -105,7 +105,7 @@ const translations = {
       "Se organizara transporte desde el aeropuerto a la Hacienda Cantalagua para todos los invitados",
     accommodationsTitle: "Hospedaje",
     accommodationsBody:
-      "Hay habitaciones disponibles en la hacienda durante su estancia. Usa el codigo BODA SOFIA & AKRM al reservar en linea para obtener un descuento. El codigo expira el 30 de junio de 2026.",
+      "Hay habitaciones disponibles en la hacienda durante su estancia. Contacta directamente a la hacienda por WhatsApp para reservar tu habitacion.",
     bookRoom: "Reserva Tu Habitacion",
     moreDetails: "Mas detalles por venir",
     fullName: "Nombre Completo",
@@ -178,7 +178,7 @@ const translations = {
     mxFaqStayQ: "Cuanto tiempo debo planear quedarme?",
     mxFaqStayA: "Planea llegar el 18 de diciembre y salir el 20. La ceremonia es el 19 de diciembre.",
     mxFaqRoomsQ: "Donde me hospedare?",
-    mxFaqRoomsA: "Hay habitaciones disponibles en la Hacienda Cantalagua. Reserva en haciendacantalagua.com/rooms y usa el codigo BODA SOFIA & AKRM para obtener un descuento (expira el 30 de junio de 2026).",
+    mxFaqRoomsA: "Hay habitaciones disponibles en la Hacienda Cantalagua. Contacta directamente a la hacienda por WhatsApp para reservar tu habitacion.",
     mxFaqRsvpQ: "Cuando debo confirmar asistencia?",
     mxFaqRsvpA: "Por favor confirma antes del 1 de septiembre de 2026.",
     mxFaqGuestsQ: "Puedo traer invitados?",

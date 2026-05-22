@@ -128,7 +128,7 @@ export default function RsvpMexico() {
               {ts(locale, "accommodationsBody")}
             </p>
             <a
-              href="https://www.haciendacantalagua.com/rooms"
+              href="https://wa.me/525549262133"
               target="_blank"
               rel="noopener noreferrer"
               className="inline-block mt-4 border border-amber-900 text-amber-900 text-xs tracking-widest uppercase px-8 py-2.5 rounded-sm hover:bg-amber-900 hover:text-white transition-colors"
