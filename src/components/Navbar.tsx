@@ -1,12 +1,13 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { useEvent } from "@/lib/event-context";
 
-const baseLinks = [
-  { to: "/", label: "Home" },
+const subLinks = [
   { to: "/schedule", label: "Schedule" },
   { to: "/registry", label: "Registry" },
   { to: "/faqs", label: "FAQs" },
 ] as const;
+
+const HOME_PATHS = ["/", "/mi", "/mx"];
 
 function LanguageToggle() {
   const { locale, setLocale } = useEvent();
@@ -38,35 +39,44 @@ function LanguageToggle() {
 }
 
 export default function Navbar() {
-  const { event } = useEvent();
+  const { event, homePath } = useEvent();
+  const { pathname } = useLocation();
   const isMexico = event === "mexico";
+  const isHome = HOME_PATHS.includes(pathname);
+
+  const navLinks = [
+    { to: homePath, label: "Home" },
+    ...subLinks,
+    { to: isMexico ? "/rsvp-mexico" : "/rsvp", label: "RSVP" },
+  ];
 
   return (
     <header className={`w-full ${isMexico ? "bg-stone-50" : "bg-white"}`}>
       <div className="relative flex flex-col items-center pt-8 pb-4">
         <NavLink
-          to="/"
+          to={homePath}
           className={`font-script text-4xl md:text-5xl ${isMexico ? "text-stone-900" : "text-black"}`}
         >
           Sofia & Akrm
         </NavLink>
         <nav className="mt-5 flex items-center gap-6 md:gap-8 text-sm md:text-base tracking-wide">
-          {[...baseLinks, { to: isMexico ? "/rsvp-mexico" : "/rsvp", label: "RSVP" }].map(({ to, label }) => (
+          {navLinks.map(({ to, label }) => (
             <NavLink
-              key={to}
+              key={`${label}-${to}`}
               to={to}
-              end={to === "/"}
-              className={({ isActive }) =>
-                `pb-0.5 transition-colors ${
-                  isActive
+              end={label === "Home"}
+              className={({ isActive }) => {
+                const active = label === "Home" ? isHome : isActive;
+                return `pb-0.5 transition-colors ${
+                  active
                     ? isMexico
                       ? "text-amber-900 border-b border-amber-900 font-medium"
                       : "text-black border-b border-black font-medium"
                     : isMexico
                       ? "text-stone-500 hover:text-amber-900"
                       : "text-neutral-600 hover:text-black"
-                }`
-              }
+                }`;
+              }}
             >
               {label}
             </NavLink>

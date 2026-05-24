@@ -239,11 +239,11 @@ function MexicoHome() {
 }
 
 export default function Home() {
-  const { event } = useEvent();
+  const { event, scope } = useEvent();
 
   return (
     <>
-      <EventToggle />
+      {scope === "both" && <EventToggle />}
       {event === "auburn" ? <AuburnHome /> : <MexicoHome />}
     </>
   );
