@@ -1,7 +1,7 @@
 import { useState } from "react";
 import GalleryLightbox from "@/components/GalleryLightbox";
 import { useEvent } from "@/lib/event-context";
-import { galleryImages, galleryTileSpans } from "@/lib/gallery";
+import { galleryImages } from "@/lib/gallery";
 
 export default function Gallery() {
   const { event } = useEvent();
@@ -10,31 +10,29 @@ export default function Gallery() {
 
   return (
     <>
-      <section className="min-h-[calc(100vh-12rem)] px-3 py-8 md:px-10 md:py-14">
-        <div className="mx-auto max-w-5xl grid grid-cols-2 gap-1.5 md:gap-2 auto-rows-[minmax(9.5rem,38vw)] sm:auto-rows-[minmax(11rem,32vw)] md:auto-rows-[minmax(9rem,16vw)]">
+      <section className="px-4 py-10 md:px-8 md:py-14">
+        <div className="mx-auto flex w-full max-w-3xl flex-col gap-8 md:gap-12">
           {galleryImages.map((img, i) => (
             <button
               key={img.src}
               type="button"
               onClick={() => setOpenIndex(i)}
-              className={`group relative overflow-hidden rounded-sm md:rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
-                galleryTileSpans[i]
-              } ${isMexico ? "focus-visible:ring-amber-800" : "focus-visible:ring-black"}`}
+              className={`group relative block w-full overflow-hidden rounded-sm md:rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 ${
+                isMexico ? "focus-visible:ring-amber-800" : "focus-visible:ring-black"
+              }`}
             >
               <img
                 src={img.src}
                 alt={img.alt}
                 loading={i < 2 ? "eager" : "lazy"}
-                style={{ objectPosition: img.objectPosition }}
-                className="absolute inset-0 h-full w-full object-cover transition-transform duration-[650ms] ease-out group-hover:scale-[1.04] group-active:scale-[1.02]"
+                className="block w-full h-auto transition-transform duration-500 ease-out group-hover:scale-[1.01] group-active:scale-[1.005]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-black/5 opacity-80 transition-opacity duration-300 group-hover:opacity-100" />
-              <div className="absolute inset-0 ring-1 ring-inset ring-black/10 pointer-events-none" />
+              <div className="pointer-events-none absolute inset-0 bg-black/0 transition-colors duration-300 group-hover:bg-black/10" />
               <span
-                className={`absolute bottom-2.5 right-2.5 flex h-8 w-8 items-center justify-center rounded-full border backdrop-blur-sm transition-transform duration-300 group-hover:scale-110 ${
+                className={`absolute bottom-3 right-3 flex h-9 w-9 items-center justify-center rounded-full border opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:opacity-100 ${
                   isMexico
-                    ? "border-white/30 bg-amber-900/50 text-white"
-                    : "border-white/35 bg-black/35 text-white"
+                    ? "border-white/30 bg-amber-900/60 text-white"
+                    : "border-white/35 bg-black/45 text-white"
                 }`}
                 aria-hidden
               >
