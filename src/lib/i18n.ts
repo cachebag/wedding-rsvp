@@ -60,6 +60,9 @@ const translations = {
     registryTitle: "Registry",
     registryBody:
       "Your presence at our wedding is the greatest gift of all. If you wish to honor us with a gift, our registry is linked below for you to browse.",
+    registryNoteTitle: "Gifts are never expected",
+    registryNote:
+      "We understand that traveling to celebrate with us is a big undertaking. Please do not feel compelled to give us anything — having you there means more than enough.",
     viewRegistry: "View Our Registry",
     faqsTitle: "FAQs",
     faqDressQ: "What is the dress code?",
@@ -83,7 +86,15 @@ const translations = {
     mxFaqStayQ: "How long should I plan to stay?",
     mxFaqStayA: "Plan to arrive December 18 and depart December 20. The wedding ceremony is on December 19.",
     mxFaqRoomsQ: "Where will I stay?",
-    mxFaqRoomsA: "Rooms are available at Hacienda Cantalagua. Book through haciendacantalagua.com/rooms and use code BODA SOFIA & AKRM for a discount (expires June 30, 2026).",
+    mxFaqRoomsIntro:
+      "Rooms are available on-site at a discounted rate for wedding guests. To book, reach out directly via WhatsApp with the following:",
+    mxFaqRoomsItemNames: "Bride & groom names: Akrm Al-Hakimi & Sofia Ruiz",
+    mxFaqRoomsItemDates: "Wedding weekend dates: December 18–20",
+    mxFaqRoomsItemEmail: "Your email address",
+    mxFaqRoomsItemRoomBefore: "Your preferred room — ",
+    mxFaqRoomsBrowseLink: "browse options here",
+    mxFaqRoomsWhatsApp: "Contact via WhatsApp",
+    mxFaqRoomsPhone: "+52 55 4926 2133",
     mxFaqRsvpQ: "When should I RSVP by?",
     mxFaqRsvpA: "Please RSVP by September 1, 2026.",
     mxFaqGuestsQ: "Can I bring guests?",
@@ -100,7 +111,7 @@ const translations = {
     rsvp: "Confirmar asistencia",
     travelTitle: "Fechas de viaje",
     travelBody: "Te sugerimos llegar el 18 de diciembre y partir el 20 de diciembre",
-    transportTitle: "Transporte",
+    transportTitle: "Llegada",
     transportBody:
       "Te pedimos llegar a la hacienda antes de las 4:00 PM",
     accommodationsTitle: "Hospedaje",
@@ -134,7 +145,7 @@ const translations = {
     fromUS: "Estados Unidos",
     scheduleTitle: "Programa del día",
     ceremonyTime: "4:00 PM",
-    ceremonyLabel: "Ceremonia",
+    ceremonyLabel: "Ceremonia Religiosa",
     ceremonyDesc: "Los invitamos a celebrar la unión de Sofia y Akrm.",
     cocktailTime: "5:00 PM",
     cocktailLabel: "Cóctel de bienvenida",
@@ -144,17 +155,20 @@ const translations = {
     receptionLabel: "Recepción",
     receptionDesc: "¡Cena, baile y mucha celebración!",
     mxCeremonyTime: "5:00 PM - 6:00 PM",
-    mxCeremonyLabel: "Ceremonia",
+    mxCeremonyLabel: "Ceremonia Religiosa",
     mxCeremonyDesc: "Acompáñennos a celebrar nuestro amor, rodeados de familia y amigos.",
     mxCocktailTime: "6:00 PM - 7:00 PM",
     mxCocktailLabel: "Cóctel de bienvenida",
     mxCocktailDesc: "Bebidas y botanas en la hacienda.",
     mxReceptionTime: "7:30 PM - 3:00 AM",
     mxReceptionLabel: "Recepción",
-    mxReceptionDesc: "¡Cena, baile y una fiesta para recordar!",
+    mxReceptionDesc: "¡Cena, baile y fiesta!",
     registryTitle: "Mesa de regalos",
     registryBody:
       "Tu presencia en nuestra boda es el mejor regalo. Si deseas obsequiarnos algo, puedes consultar nuestra mesa de regalos a continuación.",
+    registryNoteTitle: "",
+    registryNote:
+      "Entendemos que viajar para acompañarnos es un gran esfuerzo. No te sientas presionado(a) a darnos nada — tu presencia es lo que más valoramos.",
     viewRegistry: "Ver mesa de regalos",
     faqsTitle: "Preguntas frecuentes",
     faqDressQ: "¿Cuál es el código de vestimenta?",
@@ -173,12 +187,20 @@ const translations = {
     faqLocationA: "El lugar está en 3391 Cross Creek Pkwy, Auburn Hills, MI 48326.",
     mxFaqDressQ: "¿Cuál es el código de vestimenta?",
     mxFaqDressA: "Etiqueta formal. Te pedimos evitar los colores rojo y blanco.",
-    mxFaqTransportQ: "¿Cómo llego a la hacienda?",
-    mxFaqTransportA: "Te pedimos llegar a la hacienda antes de las 4:00 PM.",
+    mxFaqTransportQ: "¿A qué hora debo llegar a la hacienda?",
+    mxFaqTransportA: "Te pedimos llegar antes de las 4:00 PM.",
     mxFaqStayQ: "¿Cuánto tiempo debo planear quedarme?",
     mxFaqStayA: "Te sugerimos llegar el 18 de diciembre y partir el 20. La boda será el 19 de diciembre.",
     mxFaqRoomsQ: "¿Dónde me hospedaré?",
-    mxFaqRoomsA: "Hay habitaciones disponibles en la Hacienda Cantalagua. Puedes reservar en haciendacantalagua.com/rooms con el código BODA SOFIA & AKRM para obtener un descuento (válido hasta el 30 de junio de 2026).",
+    mxFaqRoomsIntro:
+      "Hay habitaciones disponibles en la hacienda con tarifa especial para invitados de la boda. Para reservar, contacta directamente por WhatsApp e incluye la siguiente información:",
+    mxFaqRoomsItemNames: "Nombres de los novios: Akrm Al-Hakimi y Sofia Ruiz",
+    mxFaqRoomsItemDates: "Fechas: 18 al 20 de diciembre",
+    mxFaqRoomsItemEmail: "Tu correo electrónico",
+    mxFaqRoomsItemRoomBefore: "Tu habitación preferida — ",
+    mxFaqRoomsBrowseLink: "ver opciones aquí",
+    mxFaqRoomsWhatsApp: "Contactar por WhatsApp",
+    mxFaqRoomsPhone: "+52 55 4926 2133",
     mxFaqRsvpQ: "¿Cuándo debo confirmar mi asistencia?",
     mxFaqRsvpA: "Por favor confirma antes del 1 de septiembre de 2026.",
     mxFaqGuestsQ: "¿Puedo traer invitados?",
@@ -189,6 +211,7 @@ const translations = {
   },
 } as const;
 
+export type Locale = keyof typeof translations;
 export type TranslationKey = keyof (typeof translations)["en"];
 
 export function t(locale: "en" | "es", key: TranslationKey): string | readonly string[] {

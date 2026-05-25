@@ -20,7 +20,7 @@ export default function Schedule() {
   const items = isMexico ? mexicoSchedule : auburnSchedule;
 
   return (
-    <section className={`mx-auto max-w-2xl px-6 py-20 text-center ${isMexico ? "bg-stone-50 min-h-screen" : ""}`}>
+    <section className="mx-auto max-w-2xl px-6 py-20 text-center">
       <h1 className={`font-script text-5xl md:text-6xl ${isMexico ? "text-stone-900" : "text-black"}`}>
         {ts(l, "scheduleTitle")}
       </h1>

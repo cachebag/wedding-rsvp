@@ -1,7 +1,10 @@
+import MxRoomsFaqAnswer from "@/components/MxRoomsFaqAnswer";
 import { useEvent } from "@/lib/event-context";
 import { ts, type TranslationKey } from "@/lib/i18n";
 
-const auburnFaqs: { q: TranslationKey; a: TranslationKey }[] = [
+type FaqEntry = { q: TranslationKey; a: TranslationKey; rooms?: boolean };
+
+const auburnFaqs: FaqEntry[] = [
   { q: "faqArrivalQ", a: "faqArrivalA" },
   { q: "faqRsvpQ", a: "faqRsvpA" },
   { q: "faqLocationQ", a: "faqLocationA" },
@@ -11,11 +14,11 @@ const auburnFaqs: { q: TranslationKey; a: TranslationKey }[] = [
   { q: "faqVenueQ", a: "faqVenueA" },
 ];
 
-const mexicoFaqs: { q: TranslationKey; a: TranslationKey }[] = [
+const mexicoFaqs: FaqEntry[] = [
   { q: "mxFaqDressQ", a: "mxFaqDressA" },
   { q: "mxFaqTransportQ", a: "mxFaqTransportA" },
   { q: "mxFaqStayQ", a: "mxFaqStayA" },
-  { q: "mxFaqRoomsQ", a: "mxFaqRoomsA" },
+  { q: "mxFaqRoomsQ", a: "mxFaqRoomsIntro", rooms: true },
   { q: "mxFaqRsvpQ", a: "mxFaqRsvpA" },
   { q: "mxFaqGuestsQ", a: "mxFaqGuestsA" },
   { q: "mxFaqVenueQ", a: "mxFaqVenueA" },
@@ -28,15 +31,21 @@ export default function Faqs() {
   const faqs = isMexico ? mexicoFaqs : auburnFaqs;
 
   return (
-    <section className={`mx-auto max-w-2xl px-6 py-20 ${isMexico ? "bg-stone-50 min-h-screen" : ""}`}>
+    <section className="mx-auto max-w-2xl px-6 py-20">
       <h1 className={`font-script text-5xl md:text-6xl text-center ${isMexico ? "text-stone-900" : "text-black"}`}>
         {ts(l, "faqsTitle")}
       </h1>
       <div className={`mt-12 divide-y ${isMexico ? "divide-amber-200" : "divide-neutral-200"}`}>
-        {faqs.map(({ q, a }) => (
+        {faqs.map(({ q, a, rooms }) => (
           <div key={q} className="py-6">
             <h3 className={`text-lg font-medium ${isMexico ? "text-stone-900" : "text-black"}`}>{ts(l, q)}</h3>
-            <p className={`mt-2 leading-relaxed ${isMexico ? "text-stone-600" : "text-neutral-600"}`}>{ts(l, a)}</p>
+            {rooms && isMexico ? (
+              <MxRoomsFaqAnswer locale={locale} />
+            ) : (
+              <p className={`mt-2 leading-relaxed ${isMexico ? "text-stone-600" : "text-neutral-600"}`}>
+                {ts(l, a)}
+              </p>
+            )}
           </div>
         ))}
       </div>
