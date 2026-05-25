@@ -3,6 +3,7 @@ import { useEvent } from "@/lib/event-context";
 
 const subLinks = [
   { to: "/schedule", label: "Schedule" },
+  { to: "/gallery", label: "Gallery" },
   { to: "/registry", label: "Registry" },
   { to: "/faqs", label: "FAQs" },
 ] as const;
