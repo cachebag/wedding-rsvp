@@ -214,6 +214,14 @@ function MexicoHome() {
           </div>
         </div>
       </section>
+
+      <section className="flex justify-center px-6 pb-20 md:pb-28">
+        <img
+          src="/bottom.jpg"
+          alt="Sofia and Akrm together"
+          className="w-full max-w-3xl h-[50vh] md:h-[60vh] rounded-lg shadow-sm object-cover object-[center_58%]"
+        />
+      </section>
     </div>
   );
 }
