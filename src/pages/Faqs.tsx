@@ -39,8 +39,8 @@ export default function Faqs() {
         {faqs.map(({ q, a, rooms }) => (
           <div key={q} className="py-6">
             <h3 className={`text-lg font-medium ${isMexico ? "text-stone-900" : "text-black"}`}>{ts(l, q)}</h3>
-            {rooms && isMexico ? (
-              <MxRoomsFaqAnswer locale={locale} />
+            {rooms ? (
+              <MxRoomsFaqAnswer locale={l} />
             ) : (
               <p className={`mt-2 leading-relaxed ${isMexico ? "text-stone-600" : "text-neutral-600"}`}>
                 {ts(l, a)}
