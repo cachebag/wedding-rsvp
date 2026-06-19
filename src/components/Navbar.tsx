@@ -67,7 +67,7 @@ export default function Navbar() {
     }`;
 
   return (
-    <header className={`w-full ${isMexico ? "bg-stone-50" : "bg-white"}`}>
+    <header className={`w-full sticky top-0 z-50 ${isMexico ? "bg-stone-50" : "bg-white"}`}>
       {/* ── desktop ── */}
       <div className="hidden md:flex relative flex-col items-center pt-8 pb-4">
         <NavLink
