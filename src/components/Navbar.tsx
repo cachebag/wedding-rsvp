@@ -1,12 +1,13 @@
 import { NavLink, useLocation } from "react-router-dom";
 import { useEvent } from "@/lib/event-context";
+import { ts, type TranslationKey } from "@/lib/i18n";
 
-const subLinks = [
-  { to: "/schedule", label: "Schedule" },
-  { to: "/gallery", label: "Gallery" },
-  { to: "/registry", label: "Registry" },
-  { to: "/faqs", label: "FAQs" },
-] as const;
+const subLinks: { to: string; labelKey: TranslationKey }[] = [
+  { to: "/schedule", labelKey: "navSchedule" },
+  { to: "/gallery", labelKey: "navGallery" },
+  { to: "/registry", labelKey: "navRegistry" },
+  { to: "/faqs", labelKey: "navFaqs" },
+];
 
 const HOME_PATHS = ["/", "/mi", "/mx"];
 
@@ -40,15 +41,16 @@ function LanguageToggle() {
 }
 
 export default function Navbar() {
-  const { event, homePath } = useEvent();
+  const { event, homePath, locale, localeLocked } = useEvent();
   const { pathname } = useLocation();
   const isMexico = event === "mexico";
   const isHome = HOME_PATHS.includes(pathname);
+  const l = isMexico ? locale : "en";
 
   const navLinks = [
-    { to: homePath, label: "Home" },
-    ...subLinks,
-    { to: isMexico ? "/rsvp-mexico" : "/rsvp", label: "RSVP" },
+    { to: homePath, label: ts(l, "navHome"), isHomeLink: true },
+    ...subLinks.map(({ to, labelKey }) => ({ to, label: ts(l, labelKey), isHomeLink: false })),
+    { to: isMexico ? "/rsvp-mexico" : "/rsvp", label: ts(l, "rsvp"), isHomeLink: false },
   ];
 
   return (
@@ -61,13 +63,13 @@ export default function Navbar() {
           Sofia & Akrm
         </NavLink>
         <nav className="mt-5 flex items-center gap-6 md:gap-8 text-sm md:text-base tracking-wide">
-          {navLinks.map(({ to, label }) => (
+          {navLinks.map(({ to, label, isHomeLink }) => (
             <NavLink
               key={`${label}-${to}`}
               to={to}
-              end={label === "Home"}
+              end={isHomeLink}
               className={({ isActive }) => {
-                const active = label === "Home" ? isHome : isActive;
+                const active = isHomeLink ? isHome : isActive;
                 return `pb-0.5 transition-colors ${
                   active
                     ? isMexico
@@ -84,7 +86,7 @@ export default function Navbar() {
           ))}
         </nav>
         <div className={`mt-3 w-6 border-b ${isMexico ? "border-amber-300" : "border-neutral-300"}`} />
-        {isMexico && <LanguageToggle />}
+        {isMexico && !localeLocked && <LanguageToggle />}
       </div>
     </header>
   );

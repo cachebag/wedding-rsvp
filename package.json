@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
+    "build:es": "tsc -b && vite build --mode spanish",
+    "dev:es": "vite --mode spanish",
     "preview": "vite preview",
     "setup-db": "npx tsx scripts/setup-db.ts"
   },

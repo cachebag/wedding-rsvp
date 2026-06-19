@@ -122,10 +122,10 @@ function MexicoHome() {
         <div className="relative z-10 flex items-center justify-center h-full text-center px-6">
           <div>
             <p className="text-amber-200 text-xs md:text-sm tracking-[0.3em] uppercase mb-4">
-              {locale === "es" ? "Los Esperamos En" : "Join Us In"}
+              {ts(locale, "joinUsIn")}
             </p>
             <h2 className="font-script text-5xl md:text-7xl lg:text-8xl text-white leading-tight drop-shadow-lg">
-              Mexico
+              {ts(locale, "mexicoHero")}
             </h2>
             <div className="mt-4 mx-auto w-16 border-b border-amber-300" />
           </div>
@@ -136,7 +136,7 @@ function MexicoHome() {
         <div className="mb-6 flex items-center gap-4">
           <div className="w-12 border-b border-amber-300" />
           <span className="text-amber-700 text-xs tracking-[0.3em] uppercase">
-            {locale === "es" ? "La Celebracion De" : "The Celebration Of"}
+            {ts(locale, "celebrationOf")}
           </span>
           <div className="w-12 border-b border-amber-300" />
         </div>
