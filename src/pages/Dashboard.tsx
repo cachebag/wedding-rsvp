@@ -2,6 +2,15 @@ import { useState, useEffect, useCallback, useMemo, Fragment } from "react";
 
 type EventFilter = "all" | "auburn" | "mexico";
 
+const ATTENDING_YES = new Set([
+  "Joyfully Accepts",
+  "Con mucho gusto asisto",
+]);
+
+function isAttendingYes(val: string) {
+  return ATTENDING_YES.has(val);
+}
+
 function formatGuests(r: Rsvp): string {
   if (r.guests_json) {
     try {
@@ -172,8 +181,8 @@ export default function Dashboard() {
     );
   }
 
-  const attending = filtered.filter((r) => r.attending === "Joyfully Accepts" || r.attending === "Acepta con Gusto");
-  const declined = filtered.filter((r) => r.attending === "Regretfully Declines" || r.attending === "Declina con Pesar");
+  const attending = filtered.filter((r) => isAttendingYes(r.attending));
+  const declined = filtered.filter((r) => !isAttendingYes(r.attending));
   const totalGuests = attending.reduce((sum, r) => {
     let extra = 0;
     if (r.guests_json) {
@@ -270,7 +279,7 @@ export default function Dashboard() {
 
 function RsvpRow({ rsvp: r }: { rsvp: Rsvp }) {
   const [expanded, setExpanded] = useState(false);
-  const isAttending = r.attending === "Joyfully Accepts" || r.attending === "Acepta con Gusto";
+  const isAttending = isAttendingYes(r.attending);
   const guestDisplay = formatGuests(r) || (r.plus_first_name
     ? `${r.plus_first_name} ${r.plus_last_name ?? ""}`.trim()
     : "\u2014");
