@@ -119,8 +119,8 @@ const translations = {
     date: "19 de diciembre de 2026",
     location: "Hacienda Cantalagua, Contepec, Michoacán",
     rsvp: "Confirmar asistencia",
-    travelTitle: "Te sugerimos reservar del 18 al 20 de diciembre (dos noches)",
-    travelBody: "Te sugerimos reservar del 18 de diciembre al 20 de diciembre. La boda será el 19 de diciembre.",
+    travelTitle: "",
+    travelBody: "Te sugerimos reservar la noche del 19 de diciembre.",
     transportTitle: "Llegada",
     transportBody:
       "Te pedimos llegar a la hacienda antes de las 4:00 PM del 19 de diciembre",
@@ -200,13 +200,13 @@ const translations = {
     mxFaqTransportQ: "¿A qué hora debo llegar a la hacienda?",
     mxFaqTransportA: "Te pedimos llegar antes de las 4:00 PM del 19 de diciembre.",
     mxFaqStayQ: "¿Cuánto tiempo debo planear hospedarme?",
-    mxFaqStayA: "Te sugerimos resrvar del 18 al 20 de diciembre (dos noches). La boda será el 19 de diciembre.",
+    mxFaqStayA: "Te sugerimos reservar la noche del 19 de diciembre.",
     mxFaqRoomsQ: "¿Dónde me hospedaré?",
     mxFaqRoomsIntro:
       "Hay habitaciones disponibles en la hacienda con tarifa especial para invitados de la boda. \
       Para reservar, contacta directamente por WhatsApp, e incluye la siguiente información:",
     mxFaqRoomsItemNames: "Nombres de los novios: Sofia Ruiz-Sierra y Akrm Al-Hakimi",
-    mxFaqRoomsItemDates: "Fechas: 18 al 20 de diciembre",
+    mxFaqRoomsItemDates: "Fecha: noche del 19 de diciembre",
     mxFaqRoomsItemEmail: "Tu correo electrónico",
     mxFaqRoomsItemRoomBefore: "Tu habitación preferida — ",
     mxFaqRoomsBrowseLink: "ver opciones aquí",

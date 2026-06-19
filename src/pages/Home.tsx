@@ -94,10 +94,12 @@ function AuburnHome() {
 function InfoCard({ title, body }: { title: string; body: string }) {
   return (
     <div className="border border-amber-200 rounded-md p-6 md:p-8 text-center">
-      <h3 className="text-xs tracking-[0.2em] uppercase text-amber-700 font-medium">
-        {title}
-      </h3>
-      <p className="mt-3 text-stone-700 leading-relaxed">{body}</p>
+      {title && (
+        <h3 className="text-xs tracking-[0.2em] uppercase text-amber-700 font-medium">
+          {title}
+        </h3>
+      )}
+      <p className={`${title ? "mt-3" : ""} text-stone-700 leading-relaxed`}>{body}</p>
     </div>
   );
 }

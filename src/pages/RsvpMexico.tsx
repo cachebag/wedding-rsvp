@@ -104,10 +104,12 @@ export default function RsvpMexico() {
         <div className="mb-12 space-y-4">
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="border border-amber-200 rounded-md p-5 text-center">
-              <h3 className="text-xs tracking-[0.2em] uppercase text-amber-700 font-medium">
-                {ts(locale, "travelTitle")}
-              </h3>
-              <p className="mt-2 text-sm text-stone-700 leading-relaxed">
+              {ts(locale, "travelTitle") && (
+                <h3 className="text-xs tracking-[0.2em] uppercase text-amber-700 font-medium">
+                  {ts(locale, "travelTitle")}
+                </h3>
+              )}
+              <p className={`${ts(locale, "travelTitle") ? "mt-2" : ""} text-sm text-stone-700 leading-relaxed`}>
                 {ts(locale, "travelBody")}
               </p>
             </div>
