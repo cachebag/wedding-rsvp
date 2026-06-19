@@ -37,7 +37,7 @@ async function main() {
     CREATE TABLE IF NOT EXISTS rsvps (
       id SERIAL PRIMARY KEY,
       name TEXT NOT NULL,
-      email TEXT NOT NULL,
+      email TEXT,
       phone TEXT,
       attending TEXT NOT NULL,
       plus_first_name TEXT,
@@ -78,6 +78,8 @@ async function main() {
       ) THEN
         ALTER TABLE rsvps ADD COLUMN phone TEXT;
       END IF;
+      -- make email nullable if it isn't already
+      ALTER TABLE rsvps ALTER COLUMN email DROP NOT NULL;
     END $$
   `;
 

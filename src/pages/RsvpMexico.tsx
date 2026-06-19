@@ -12,7 +12,7 @@ export default function RsvpMexico() {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [attending, setAttending] = useState("");
-  const [travelingFrom, setTravelingFrom] = useState("");
+  const [travelingFrom] = useState("");
   const [bringingGuests, setBringingGuests] = useState<"" | "yes" | "no">("");
   const [guests, setGuests] = useState<Guest[]>([{ firstName: "", lastName: "" }]);
   const [dietary, setDietary] = useState("");
@@ -85,7 +85,7 @@ export default function RsvpMexico() {
 
   const acceptLabel = ts(locale, "accepts");
   const declineLabel = ts(locale, "declines");
-  const inp = "w-full border-b border-amber-200 py-2 text-base text-stone-900 outline-none focus:border-amber-900 transition-colors bg-transparent";
+  const inp = "w-full border-b border-amber-300 py-2.5 text-lg text-stone-900 outline-none focus:border-amber-900 transition-colors bg-transparent";
 
   return (
     <section className="bg-stone-50 min-h-screen">
@@ -155,23 +155,23 @@ export default function RsvpMexico() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-8 text-base">
+        <form onSubmit={handleSubmit} className="space-y-8 text-lg">
           <div>
-            <label className="block text-base tracking-wide text-stone-500 mb-1">
+            <label className="block text-lg tracking-wide text-stone-700 mb-1">
               {ts(locale, "fullName")}
             </label>
             <input required type="text" value={name} onChange={(e) => setName(e.target.value)} className={inp} />
           </div>
 
           <div>
-            <label className="block text-base tracking-wide text-stone-500 mb-1">
+            <label className="block text-lg tracking-wide text-stone-700 mb-1">
               {ts(locale, "phone")}
             </label>
             <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className={inp} />
           </div>
 
           <div>
-            <label className="block text-base tracking-wide text-stone-500 mb-1">
+            <label className="block text-lg tracking-wide text-stone-700 mb-1">
               {ts(locale, "attendingLabel")}
             </label>
             <div className="flex gap-6 mt-2">
@@ -186,39 +186,14 @@ export default function RsvpMexico() {
                     className="accent-amber-900"
                     required
                   />
-                  <span className="text-base text-stone-700">{opt}</span>
+                  <span className="text-lg text-stone-800">{opt}</span>
                 </label>
               ))}
             </div>
           </div>
 
           <div>
-            <label className="block text-base tracking-wide text-stone-500 mb-1">
-              {ts(locale, "travelingFrom")}
-            </label>
-            <div className="flex gap-6 mt-2">
-              {[
-                { value: "mexico", label: ts(locale, "fromMexico") },
-                { value: "us", label: ts(locale, "fromUS") },
-              ].map(({ value, label }) => (
-                <label key={value} className="flex items-center gap-2 cursor-pointer">
-                  <input
-                    type="radio"
-                    name="travelingFrom"
-                    value={value}
-                    checked={travelingFrom === value}
-                    onChange={(e) => setTravelingFrom(e.target.value)}
-                    className="accent-amber-900"
-                    required
-                  />
-                  <span className="text-base text-stone-700">{label}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-base tracking-wide text-stone-500 mb-1">
+            <label className="block text-lg tracking-wide text-stone-700 mb-1">
               {ts(locale, "bringingGuests")}
             </label>
             <div className="flex gap-6 mt-2">
@@ -235,7 +210,7 @@ export default function RsvpMexico() {
                     onChange={() => setBringingGuests(value)}
                     className="accent-amber-900"
                   />
-                  <span className="text-base text-stone-700">{label}</span>
+                  <span className="text-lg text-stone-800">{label}</span>
                 </label>
               ))}
             </div>
@@ -246,7 +221,7 @@ export default function RsvpMexico() {
               {guests.map((g, idx) => (
                 <div key={idx} className="flex items-end gap-3">
                   <div className="flex-1">
-                    <label className="block text-base tracking-wide text-stone-500 mb-1">
+                    <label className="block text-lg tracking-wide text-stone-700 mb-1">
                       {ts(locale, "guestFirst")}
                     </label>
                     <input
@@ -257,7 +232,7 @@ export default function RsvpMexico() {
                     />
                   </div>
                   <div className="flex-1">
-                    <label className="block text-base tracking-wide text-stone-500 mb-1">
+                    <label className="block text-lg tracking-wide text-stone-700 mb-1">
                       {ts(locale, "guestLast")}
                     </label>
                     <input
@@ -289,7 +264,7 @@ export default function RsvpMexico() {
           )}
 
           <div>
-            <label className="block text-base tracking-wide text-stone-500 mb-1">
+            <label className="block text-lg tracking-wide text-stone-700 mb-1">
               {ts(locale, "dietary")}
             </label>
             <input
@@ -302,7 +277,7 @@ export default function RsvpMexico() {
           </div>
 
           <div>
-            <label className="block text-base tracking-wide text-stone-500 mb-1">
+            <label className="block text-lg tracking-wide text-stone-700 mb-1">
               {ts(locale, "messageLabel")}
             </label>
             <textarea
