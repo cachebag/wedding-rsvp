@@ -1,4 +1,28 @@
+import { readFileSync, existsSync } from "fs";
+import { resolve } from "path";
 import { neon } from "@neondatabase/serverless";
+
+function loadEnvFile(path: string) {
+  if (!existsSync(path)) return;
+  for (const line of readFileSync(path, "utf8").split("\n")) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith("#")) continue;
+    const eq = trimmed.indexOf("=");
+    if (eq === -1) continue;
+    const key = trimmed.slice(0, eq).trim();
+    let val = trimmed.slice(eq + 1).trim();
+    if (
+      (val.startsWith('"') && val.endsWith('"')) ||
+      (val.startsWith("'") && val.endsWith("'"))
+    ) {
+      val = val.slice(1, -1);
+    }
+    if (!(key in process.env)) process.env[key] = val;
+  }
+}
+
+loadEnvFile(resolve(process.cwd(), ".env.local"));
+loadEnvFile(resolve(process.cwd(), ".env"));
 
 async function main() {
   const databaseUrl = process.env.DATABASE_URL;
@@ -14,6 +38,7 @@ async function main() {
       id SERIAL PRIMARY KEY,
       name TEXT NOT NULL,
       email TEXT NOT NULL,
+      phone TEXT,
       attending TEXT NOT NULL,
       plus_first_name TEXT,
       plus_last_name TEXT,
@@ -46,6 +71,12 @@ async function main() {
         WHERE table_name = 'rsvps' AND column_name = 'guests_json'
       ) THEN
         ALTER TABLE rsvps ADD COLUMN guests_json TEXT;
+      END IF;
+      IF NOT EXISTS (
+        SELECT 1 FROM information_schema.columns
+        WHERE table_name = 'rsvps' AND column_name = 'phone'
+      ) THEN
+        ALTER TABLE rsvps ADD COLUMN phone TEXT;
       END IF;
     END $$
   `;

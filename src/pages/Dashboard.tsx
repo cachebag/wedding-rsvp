@@ -18,6 +18,7 @@ interface Rsvp {
   id: number;
   name: string;
   email: string;
+  phone: string | null;
   attending: string;
   plus_first_name: string | null;
   plus_last_name: string | null;
@@ -33,6 +34,7 @@ function downloadCsv(rows: Rsvp[]) {
   const headers = [
     "Name",
     "Email",
+    "Phone",
     "Attending",
     "Plus-One",
     "Guests",
@@ -53,6 +55,7 @@ function downloadCsv(rows: Rsvp[]) {
     [
       r.name,
       r.email,
+      r.phone,
       r.attending,
       r.plus_first_name,
       r.plus_last_name,
@@ -243,6 +246,7 @@ export default function Dashboard() {
               <tr className="border-b border-neutral-200">
                 <Th>Name</Th>
                 <Th>Email</Th>
+                <Th>Phone</Th>
                 <Th>Event</Th>
                 <Th>Status</Th>
                 <Th>Guests</Th>
@@ -277,6 +281,7 @@ function RsvpRow({ rsvp: r }: { rsvp: Rsvp }) {
       <tr className="border-b border-neutral-100">
         <Td>{r.name}</Td>
         <Td>{r.email}</Td>
+        <Td>{r.phone || "\u2014"}</Td>
         <Td>
           <span className={r.event === "mexico" ? "text-amber-700" : "text-neutral-500"}>
             {r.event === "mexico" ? "Mexico" : "Auburn"}
@@ -309,7 +314,7 @@ function RsvpRow({ rsvp: r }: { rsvp: Rsvp }) {
       </tr>
       {expanded && hasMessage && (
         <tr className="border-b border-neutral-100 bg-neutral-50">
-          <td colSpan={9} className="px-4 py-3">
+          <td colSpan={10} className="px-4 py-3">
             <p className="text-sm text-neutral-700 whitespace-pre-wrap">{r.message}</p>
           </td>
         </tr>

@@ -11,6 +11,7 @@ export default function RsvpMexico() {
   const { locale } = useEvent();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
   const [attending, setAttending] = useState("");
   const [travelingFrom, setTravelingFrom] = useState("");
   const [bringingGuests, setBringingGuests] = useState<"" | "yes" | "no">("");
@@ -49,6 +50,7 @@ export default function RsvpMexico() {
         body: JSON.stringify({
           name,
           email,
+          phone,
           attending,
           travelingFrom: travelingFrom || undefined,
           guests: guestList.length > 0 ? guestList : undefined,
@@ -126,17 +128,32 @@ export default function RsvpMexico() {
             <h3 className="text-xs tracking-[0.2em] uppercase text-amber-700 font-medium">
               {ts(locale, "accommodationsTitle")}
             </h3>
-            <p className="mt-2 text-sm text-stone-700 leading-relaxed">
-              {ts(locale, "accommodationsBody")}
-            </p>
+            <p className="mt-2 text-sm text-stone-700 leading-relaxed">{ts(locale, "mxFaqRoomsIntro")}</p>
+            <ul className="mt-4 text-sm text-stone-800 leading-relaxed space-y-2 text-left list-disc list-inside">
+              <li>{ts(locale, "mxFaqRoomsItemNames")}</li>
+              <li>{ts(locale, "mxFaqRoomsItemDates")}</li>
+              <li>{ts(locale, "mxFaqRoomsItemEmail")}</li>
+              <li>
+                {ts(locale, "mxFaqRoomsItemRoomBefore")}
+                <a
+                  href="https://www.haciendacantalagua.com/rooms"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-amber-700 underline underline-offset-2 hover:text-amber-900"
+                >
+                  {ts(locale, "mxFaqRoomsBrowseLink")}
+                </a>
+              </li>
+            </ul>
             <a
               href="https://wa.me/525549262133"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-block mt-4 border border-amber-900 text-amber-900 text-xs tracking-widest uppercase px-8 py-2.5 rounded-sm hover:bg-amber-900 hover:text-white transition-colors"
+              className="inline-flex items-center gap-2 mt-4 bg-amber-900 text-white text-xs tracking-widest uppercase px-8 py-2.5 rounded-sm hover:bg-amber-800 transition-colors"
             >
-              {ts(locale, "bookRoom")}
+              {ts(locale, "mxFaqRoomsWhatsApp")}
             </a>
+            <p className="mt-2 text-sm text-stone-500 tracking-wide">{ts(locale, "mxFaqRoomsPhone")}</p>
           </div>
         </div>
 
@@ -153,6 +170,13 @@ export default function RsvpMexico() {
               {ts(locale, "email")}
             </label>
             <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inp} />
+          </div>
+
+          <div>
+            <label className="block text-sm tracking-wide text-stone-500 mb-1">
+              {ts(locale, "phone")}
+            </label>
+            <input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className={inp} />
           </div>
 
           <div>
