@@ -112,7 +112,7 @@ const translations = {
     navFaqs: "FAQs",
     joinUsIn: "Join Us In",
     celebrationOf: "The Celebration Of",
-    mexicoHero: "Mexico",
+    mexicoHero: "Hacienda Cantalagua",
   },
   es: {
     names: ["Sofia Ruiz-Sierra", "Akrm Al-Hakimi"],
@@ -228,7 +228,7 @@ const translations = {
     navFaqs: "Preguntas frecuentes",
     joinUsIn: "Los Esperamos En",
     celebrationOf: "La Celebración De",
-    mexicoHero: "La Hacienda Cantalagua",
+    mexicoHero: "Hacienda Cantalagua",
   },
 } as const;
 

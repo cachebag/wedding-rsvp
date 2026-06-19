@@ -4,7 +4,7 @@ import { verifySession } from "./lib/session.js";
 
 interface RsvpBody {
   name: string;
-  email: string;
+  email?: string;
   phone?: string;
   attending: string;
   plusFirstName?: string;
@@ -22,8 +22,6 @@ function isValidBody(body: unknown): body is RsvpBody {
   return (
     typeof b.name === "string" &&
     b.name.trim().length > 0 &&
-    typeof b.email === "string" &&
-    b.email.includes("@") &&
     typeof b.attending === "string" &&
     b.attending.trim().length > 0
   );
@@ -45,7 +43,7 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
 
     await sql`
       INSERT INTO rsvps (name, email, phone, attending, plus_first_name, plus_last_name, guests_json, traveling_from, dietary, message, event)
-      VALUES (${name.trim()}, ${email.trim()}, ${phone?.trim() || null}, ${attending}, ${pfn}, ${pln}, ${guestsJson}, ${travelingFrom?.trim() || null}, ${dietary?.trim() || null}, ${message?.trim() || null}, ${eventValue})
+      VALUES (${name.trim()}, ${email?.trim() || null}, ${phone?.trim() || null}, ${attending}, ${pfn}, ${pln}, ${guestsJson}, ${travelingFrom?.trim() || null}, ${dietary?.trim() || null}, ${message?.trim() || null}, ${eventValue})
     `;
 
     return res.status(201).json({ ok: true });

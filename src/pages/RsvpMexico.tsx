@@ -10,7 +10,6 @@ interface Guest {
 export default function RsvpMexico() {
   const { locale } = useEvent();
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [attending, setAttending] = useState("");
   const [travelingFrom, setTravelingFrom] = useState("");
@@ -49,7 +48,6 @@ export default function RsvpMexico() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name,
-          email,
           phone,
           attending,
           travelingFrom: travelingFrom || undefined,
@@ -87,7 +85,7 @@ export default function RsvpMexico() {
 
   const acceptLabel = ts(locale, "accepts");
   const declineLabel = ts(locale, "declines");
-  const inp = "w-full border-b border-amber-200 py-2 text-stone-900 outline-none focus:border-amber-900 transition-colors bg-transparent";
+  const inp = "w-full border-b border-amber-200 py-2 text-base text-stone-900 outline-none focus:border-amber-900 transition-colors bg-transparent";
 
   return (
     <section className="bg-stone-50 min-h-screen">
@@ -157,30 +155,23 @@ export default function RsvpMexico() {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form onSubmit={handleSubmit} className="space-y-8 text-base">
           <div>
-            <label className="block text-sm tracking-wide text-stone-500 mb-1">
+            <label className="block text-base tracking-wide text-stone-500 mb-1">
               {ts(locale, "fullName")}
             </label>
             <input required type="text" value={name} onChange={(e) => setName(e.target.value)} className={inp} />
           </div>
 
           <div>
-            <label className="block text-sm tracking-wide text-stone-500 mb-1">
-              {ts(locale, "email")}
-            </label>
-            <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} className={inp} />
-          </div>
-
-          <div>
-            <label className="block text-sm tracking-wide text-stone-500 mb-1">
+            <label className="block text-base tracking-wide text-stone-500 mb-1">
               {ts(locale, "phone")}
             </label>
-            <input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className={inp} />
+            <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className={inp} />
           </div>
 
           <div>
-            <label className="block text-sm tracking-wide text-stone-500 mb-1">
+            <label className="block text-base tracking-wide text-stone-500 mb-1">
               {ts(locale, "attendingLabel")}
             </label>
             <div className="flex gap-6 mt-2">
@@ -195,14 +186,14 @@ export default function RsvpMexico() {
                     className="accent-amber-900"
                     required
                   />
-                  <span className="text-sm text-stone-700">{opt}</span>
+                  <span className="text-base text-stone-700">{opt}</span>
                 </label>
               ))}
             </div>
           </div>
 
           <div>
-            <label className="block text-sm tracking-wide text-stone-500 mb-1">
+            <label className="block text-base tracking-wide text-stone-500 mb-1">
               {ts(locale, "travelingFrom")}
             </label>
             <div className="flex gap-6 mt-2">
@@ -220,14 +211,14 @@ export default function RsvpMexico() {
                     className="accent-amber-900"
                     required
                   />
-                  <span className="text-sm text-stone-700">{label}</span>
+                  <span className="text-base text-stone-700">{label}</span>
                 </label>
               ))}
             </div>
           </div>
 
           <div>
-            <label className="block text-sm tracking-wide text-stone-500 mb-1">
+            <label className="block text-base tracking-wide text-stone-500 mb-1">
               {ts(locale, "bringingGuests")}
             </label>
             <div className="flex gap-6 mt-2">
@@ -244,7 +235,7 @@ export default function RsvpMexico() {
                     onChange={() => setBringingGuests(value)}
                     className="accent-amber-900"
                   />
-                  <span className="text-sm text-stone-700">{label}</span>
+                  <span className="text-base text-stone-700">{label}</span>
                 </label>
               ))}
             </div>
@@ -255,7 +246,7 @@ export default function RsvpMexico() {
               {guests.map((g, idx) => (
                 <div key={idx} className="flex items-end gap-3">
                   <div className="flex-1">
-                    <label className="block text-sm tracking-wide text-stone-500 mb-1">
+                    <label className="block text-base tracking-wide text-stone-500 mb-1">
                       {ts(locale, "guestFirst")}
                     </label>
                     <input
@@ -266,7 +257,7 @@ export default function RsvpMexico() {
                     />
                   </div>
                   <div className="flex-1">
-                    <label className="block text-sm tracking-wide text-stone-500 mb-1">
+                    <label className="block text-base tracking-wide text-stone-500 mb-1">
                       {ts(locale, "guestLast")}
                     </label>
                     <input
@@ -280,7 +271,7 @@ export default function RsvpMexico() {
                     <button
                       type="button"
                       onClick={() => removeGuest(idx)}
-                      className="text-xs text-red-500 hover:text-red-700 pb-2 whitespace-nowrap"
+                      className="text-sm text-red-500 hover:text-red-700 pb-2 whitespace-nowrap"
                     >
                       {ts(locale, "removeGuest")}
                     </button>
@@ -290,7 +281,7 @@ export default function RsvpMexico() {
               <button
                 type="button"
                 onClick={addGuest}
-                className="text-sm text-amber-800 hover:text-amber-950 tracking-wide"
+                className="text-base text-amber-800 hover:text-amber-950 tracking-wide"
               >
                 {ts(locale, "addGuest")}
               </button>
@@ -298,7 +289,7 @@ export default function RsvpMexico() {
           )}
 
           <div>
-            <label className="block text-sm tracking-wide text-stone-500 mb-1">
+            <label className="block text-base tracking-wide text-stone-500 mb-1">
               {ts(locale, "dietary")}
             </label>
             <input
@@ -311,7 +302,7 @@ export default function RsvpMexico() {
           </div>
 
           <div>
-            <label className="block text-sm tracking-wide text-stone-500 mb-1">
+            <label className="block text-base tracking-wide text-stone-500 mb-1">
               {ts(locale, "messageLabel")}
             </label>
             <textarea
