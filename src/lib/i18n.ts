@@ -226,7 +226,7 @@ const translations = {
     navFaqs: "Preguntas frecuentes",
     joinUsIn: "Los Esperamos En",
     celebrationOf: "La Celebración De",
-    mexicoHero: "México",
+    mexicoHero: "La Hacienda Cantalagua",
   },
 } as const;
 

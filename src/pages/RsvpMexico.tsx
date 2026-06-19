@@ -93,7 +93,7 @@ export default function RsvpMexico() {
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-4 mb-4">
             <div className="w-12 border-b border-amber-300" />
-            <span className="text-amber-700 text-xs tracking-[0.3em] uppercase">Mexico</span>
+            <span className="text-amber-700 text-xs tracking-[0.3em] uppercase">{ts(locale, "mexicoHero")}</span>
             <div className="w-12 border-b border-amber-300" />
           </div>
           <h1 className="font-script text-5xl md:text-6xl text-stone-900">
