@@ -115,16 +115,22 @@ export default function Navbar() {
             <button
               onClick={() => setOpen((o) => !o)}
               aria-label="Toggle menu"
-              className={`p-1 ${isMexico ? "text-stone-700" : "text-neutral-700"}`}
+              className={`flex items-center gap-1.5 p-1 text-xs tracking-widest uppercase ${isMexico ? "text-stone-600" : "text-neutral-600"}`}
             >
               {open ? (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
+                <>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                  <span>{ts(l, "navMenuClose")}</span>
+                </>
               ) : (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                </svg>
+                <>
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+                  </svg>
+                  <span>{ts(l, "navMenuOpen")}</span>
+                </>
               )}
             </button>
           </div>
