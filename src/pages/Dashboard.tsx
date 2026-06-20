@@ -263,11 +263,16 @@ export default function Dashboard() {
                 <Th>Dietary</Th>
                 <Th>Message</Th>
                 <Th>Date</Th>
+                <Th></Th>
               </tr>
             </thead>
             <tbody>
               {filtered.map((r) => (
-                <RsvpRow key={r.id} rsvp={r} />
+                <RsvpRow
+                  key={r.id}
+                  rsvp={r}
+                  onDelete={(id) => setRsvps((prev) => prev.filter((x) => x.id !== id))}
+                />
               ))}
             </tbody>
           </table>
@@ -277,13 +282,26 @@ export default function Dashboard() {
   );
 }
 
-function RsvpRow({ rsvp: r }: { rsvp: Rsvp }) {
+function RsvpRow({ rsvp: r, onDelete }: { rsvp: Rsvp; onDelete: (id: number) => void }) {
   const [expanded, setExpanded] = useState(false);
+  const [deleting, setDeleting] = useState(false);
   const isAttending = isAttendingYes(r.attending);
   const guestDisplay = formatGuests(r) || (r.plus_first_name
     ? `${r.plus_first_name} ${r.plus_last_name ?? ""}`.trim()
     : "\u2014");
   const hasMessage = !!r.message;
+
+  async function handleDelete() {
+    if (!confirm(`Delete RSVP for "${r.name}"?`)) return;
+    setDeleting(true);
+    const res = await fetch(`/api/rsvp?id=${r.id}`, { method: "DELETE" });
+    if (res.ok) {
+      onDelete(r.id);
+    } else {
+      alert("Failed to delete. Please try again.");
+      setDeleting(false);
+    }
+  }
 
   return (
     <Fragment>
@@ -320,10 +338,22 @@ function RsvpRow({ rsvp: r }: { rsvp: Rsvp }) {
           )}
         </Td>
         <Td>{new Date(r.created_at).toLocaleDateString()}</Td>
+        <Td>
+          <button
+            onClick={handleDelete}
+            disabled={deleting}
+            className="text-neutral-300 hover:text-red-500 transition-colors disabled:opacity-40"
+            title="Delete"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </Td>
       </tr>
       {expanded && hasMessage && (
         <tr className="border-b border-neutral-100 bg-neutral-50">
-          <td colSpan={10} className="px-4 py-3">
+          <td colSpan={11} className="px-4 py-3">
             <p className="text-sm text-neutral-700 whitespace-pre-wrap">{r.message}</p>
           </td>
         </tr>
@@ -343,7 +373,7 @@ function Stat({ label, value }: { label: string; value: number }) {
   );
 }
 
-function Th({ children }: { children: React.ReactNode }) {
+function Th({ children }: { children?: React.ReactNode }) {
   return (
     <th className="py-3 pr-4 text-xs tracking-widest uppercase text-neutral-400 font-normal whitespace-nowrap">
       {children}
